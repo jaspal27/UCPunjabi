@@ -1,10 +1,14 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback, useState, useContext} from 'react';
 import {Dimensions, StyleSheet, TouchableOpacity, View, Text, StatusBar,Image} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
+import Icon from 'react-native-vector-icons/Ionicons'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 const {width: viewportWidth} = Dimensions.get('window');
+
 
 function wp(percentage: number) {
     const value = (percentage * viewportWidth) / 100;
@@ -80,15 +84,21 @@ const Walkthroughs = memo(() => {
                 justifyContent: 'space-around',
                 paddingBottom: 100
               }}>
+                <View style={styles.buttonContainer}>
+           
+            <TouchableOpacity style={styles.button} onPress={onSkipPress}>
+              <Text style={styles.buttonText}>Skip</Text>
+            </TouchableOpacity>
+          </View>
             <Text style={styles.title}>{item.title}</Text>
             <Image style={styles.image} source={item.image} />
             <Text style={styles.text}>{item.text}</Text>
           </View>
         )
     }, []);
-
+    
     return (
-        <AppIntroSlider renderItem={renderItem} data={slides} onDone={onPress} showSkipButton onSkip={onSkipPress}/>
+        <AppIntroSlider renderItem={renderItem} data={slides} onDone={onPress}  />
     )
 });
 
@@ -102,7 +112,23 @@ const styles = StyleSheet.create({
      justifyContent: 'center', 
      padding: 20 
     }, 
- 
+    buttonContainer: {
+      flexDirection: 'row',
+      width:100,
+      alignSelf: 'flex-end',
+    },
+    button: {
+      flex: 1,
+      paddingVertical: 20,
+      borderRadius: 24,
+      
+    },
+    buttonText: {
+      color: 'white',
+      fontWeight: '800',
+      textAlign: 'center',
+      
+    },
      
     slide: {
         flex: 1,
@@ -138,5 +164,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF'
     },
+   
  });
 
