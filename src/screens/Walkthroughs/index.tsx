@@ -5,10 +5,9 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-
+import { Button } from 'react-native-elements';
 const {width: viewportWidth} = Dimensions.get('window');
-
+import LinearGradient from 'react-native-linear-gradient';
 
 function wp(percentage: number) {
     const value = (percentage * viewportWidth) / 100;
@@ -24,9 +23,10 @@ export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
 
 const Walkthroughs = memo(() => {
+  
     const {navigate} = useNavigation();
     const [indexActive, setIndex] = useState(0);
-
+    
     const onPress = useCallback(()=>{
         navigate(ROUTERS.Home);
     },[])
@@ -36,63 +36,65 @@ const Walkthroughs = memo(() => {
     const slides = [
         {
           key: 'k1',
-          title: 'Ecommerce Leader',
-          text: 'Best ecommerce in the world',
+          title: 'How did you hear about this app?',
+          text1: 'My School',
+          text2: 'My Friends / Family',
+          text3: 'The Internet',
           image: {
             uri:
               'https://i.imgur.com/jr6pfzM.png',
           },
           titleStyle: styles.title,
           textStyle: styles.text,
-          imageStyle: styles.image,
-          backgroundColor: '#20d2bb',
+          backgroundColor: '#2f85a4',
         },
         {
           key: 'k2',
-          title: 'fast delivery',
-          text: 'get your order insantly fast',
-          image: {
-            uri:
-              'https://i.imgur.com/au4H7Vt.png',
-          },
+          title: 'What is your most recent expereince learning Punjabi?',
+          text1: 'I have used another app',
+          text2: 'I have taken a class',
+          text3: 'Learning on my own',
           titleStyle: styles.title,
           textStyle: styles.text,
-          imageStyle: styles.image,
-          backgroundColor: '#febe29',
+         
+          backgroundColor: '#2f85a4',
         },
         {
           key: 'k3',
-          title: 'many store ',
-          text: 'Multiple store location',
-          image: {
-            uri: 'https://i.imgur.com/bXgn893.png',
-          },
+          title: 'Why are you learning Punjabi',
+          text1: 'I enjoy learning new language',
+          text2: 'To connect with friends / family',
+          text3: 'other reasons',
           titleStyle: styles.title,
           textStyle: styles.text,
-          imageStyle: styles.image,
-          backgroundColor: '#22bcb5',
+          
+          backgroundColor: '#2f85a4',
         }
         
       ];
       const renderItem = useCallback(({item}) => {
       
         return (
+          
             <View style={{
                 flex: 1,
                 backgroundColor: item.backgroundColor,
                 alignItems: 'center',
                 justifyContent: 'space-around',
-                paddingBottom: 100
+                paddingBottom: 250
               }}>
-                <View style={styles.buttonContainer}>
+                
+            <View style={styles.buttonContainer}>
            
-            <TouchableOpacity style={styles.button} onPress={onSkipPress}>
-              <Text style={styles.buttonText}>Skip</Text>
+            <TouchableOpacity  onPress={onSkipPress}>
+              <Text style={styles.buttonSkipText}>Skip</Text>
             </TouchableOpacity>
           </View>
             <Text style={styles.title}>{item.title}</Text>
-            <Image style={styles.image} source={item.image} />
-            <Text style={styles.text}>{item.text}</Text>
+            <Button  titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text1} type="outline"/>
+            <Button titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text2} type="outline"/>
+            <Button titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text3} type="outline"/>
+             
           </View>
         )
     }, []);
@@ -117,17 +119,21 @@ const styles = StyleSheet.create({
       width:100,
       alignSelf: 'flex-end',
     },
-    button: {
-      flex: 1,
-      paddingVertical: 20,
-      borderRadius: 24,
-      
+    buttonSkipText: {
+      color: 'white',
+      fontWeight: '500',
+      fontSize:16,
+      textAlign: 'center',
     },
     buttonText: {
-      color: 'white',
-      fontWeight: '800',
+      width:300,
+      color: 'black',
+      fontWeight: '400',
       textAlign: 'center',
-      
+    },
+    buttonOutline:{
+      borderColor: 'black',
+      borderWidth:1
     },
      
     slide: {
@@ -136,34 +142,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'blue',
       },
-      image: {
-        width: 320,
-        height: 320,
-        marginVertical: 32,
-      },
+     
       text: {
         color: 'rgba(255, 255, 255, 0.8)',
         textAlign: 'center',
       },
       title: {
-        fontSize: 22,
-        color: 'white',
+        fontSize: 30,
+        color: 'black',
         textAlign: 'center',
       },
     
-    sliderContentContainer: {
-        paddingVertical: 10, // for custom animation
-    }, 
-    containerStyle: {
-        padding: 0,
-        margin: 0,
-        paddingHorizontal: 0,
-        paddingVertical: 0,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF'
-    },
+   
+    
+    
    
  });
 

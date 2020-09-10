@@ -7,7 +7,7 @@ import SplashScreen from 'react-native-splash-screen'
 
 import Walkthroughs from "screens/Walkthroughs";
 import Home from "screens/Home";
-import Categories from "screens/Categories";
+import Gurmukhi from "screens/Gurmukhi";
 import {Platform} from "react-native";
 
 const optionNavigator: any = {
@@ -44,7 +44,7 @@ const MainNavigation = memo(() => {
                     initialRouteName={ROUTERS.Onboarding}
                 >
                     <Screen name={ROUTERS.Onboarding} component={Walkthroughs} options={optionNavigator}/>
-                    <Screen name={ROUTERS.Categories} component={Categories} options={optionNavigator}/>
+                    <Screen name={ROUTERS.Categories} component={Gurmukhi} options={optionNavigator}/>
                     <Screen name={ROUTERS.Home} component={Home} options={optionNavigator}/>
                     
                 </Navigator>

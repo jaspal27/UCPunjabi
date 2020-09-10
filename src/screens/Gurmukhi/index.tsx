@@ -31,7 +31,7 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 declare const global: {HermesInternal: null | {}};
 
-const Categories = () => {
+const Gurmukhi = () => {
     const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
         navigate(ROUTERS.Home);
@@ -46,7 +46,7 @@ const Categories = () => {
             </Button>
           </Left>
           <Body>
-            <Title>Categories</Title>
+            <Title>Gurmukhi</Title>
           </Body>
           <Right>
             
@@ -132,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Categories;
+export default Gurmukhi;
