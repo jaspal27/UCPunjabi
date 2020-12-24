@@ -27,7 +27,7 @@ Run the following below commands on the mac terminal
 ```git
 1. Git clone https://github.com/jaspal27/UCPunjabi.git
 2. npm install
-3. cd pod && pod install && cd ..
+3. cd ios && pod install && cd ..
 4. npm run ios. '// for running the app on IOS simulator or devicee
 5. npm run android  '// for running the app on android emulator or deevice
 
