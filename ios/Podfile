@@ -9,6 +9,11 @@ target 'UCPunjabi' do
   use_react_native!(:path => config["reactNativePath"])
 
 
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'ReactNativeAudioToolkit', :path => '../node_modules/@react-native-community/audio-toolkit'
+
   target 'UCPunjabiTests' do
     inherit! :complete
     # Pods for testing

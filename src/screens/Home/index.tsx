@@ -35,7 +35,7 @@ declare const global: {HermesInternal: null | {}};
 const Home = () => {
     const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
-        navigate(ROUTERS.Categories);
+        navigate(ROUTERS.Gurumukhi);
     },[]);
     const onSkipPress = useCallback(()=>{
       navigate(ROUTERS.Home);
