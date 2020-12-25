@@ -20,7 +20,7 @@ import {
   StatusBar,
   Platform
 } from 'react-native';
-import { Button, colors } from 'react-native-elements';
+import { Button, colors,Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Container, Header, Content, Body, Left,Right, Title,List,ListItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
@@ -35,39 +35,58 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
-
+import {
+    Player,
+    Recorder,
+    MediaStates
+} from '@react-native-community/audio-toolkit';
 declare const global: {HermesInternal: null | {}};
 var isIos = false;
 if(Platform.OS == 'ios'){
   isIos = true;
 }
-const Gurumukhi = () => {
+const GurumukhiDetails = () => {
     const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
-        navigate(ROUTERS.Gurumukhi);
+        navigate(ROUTERS.Gurumukhi2ndScreen);
     },[]);
     const onSkipPress = useCallback(()=>{
       navigate(ROUTERS.Home);
   },[]);
   const onPress = useCallback(()=>{
     navigate(ROUTERS.Gurumukhi2ndScreen);
-},[]);
+  },[]);
+  const onAudioPlay = useCallback(() =>{
+  //  let audio = new Audio()
+    
+    try {
+        // play the file tone.mp3
+        let player = new Player("l01.mp3");
+        player.play().on('ended',() =>{
+            console.log('ended');
+        })
+        //SoundPlayer.playSoundFile('tone', 'mp3')
+       
+    } catch (e) {
+        console.log(`cannot play the sound file`, e)
+    }
+    //SoundPlayer.playUrl('audio/letters/l01.mp3')
+   // audio.playAudioLetters('l01')
+  },[])
 
   const [items, setItems] = React.useState([
-      { id:1, name: 'uni0A09', code: '#f4f5f5',status:true,audioId:'l01'},
-      { id:2,name: 'uni0A05', code: '#f4f5f5',status:false },
-      { id:3,name: 'uni0A07', code: '#f4f5f5',status:false },
-      { id:4,name: 'uni0A38', code: '#f4f5f5',status:false },
-      { id:5,name: 'uni0A39', code: '#f4f5f5',status:false },
-      { id:6,name: 'uni0A15', code: '#f4f5f5',status:false },
-      { id:7,name: 'uni0A16', code: '#f4f5f5',status:false },
-      { id:8,name: 'uni0A17', code: '#f4f5f5',status:false },
-      { id:9,name: 'uni0A18', code: '#f4f5f5',status:false },
-      { id:10,name: 'uni0A19', code: '#f4f5f5',status:false },
-      
-    ]);  
+    { id:1, name: 'uni0A09', code: '#f4f5f5',status:true,audioId:'l01'},
+    { id:2,name: 'uni0A05', code: '#f4f5f5',status:false },
+    { id:3,name: 'uni0A07', code: '#f4f5f5',status:false },
+    { id:4,name: 'uni0A38', code: '#f4f5f5',status:false },
+    { id:5,name: 'uni0A39', code: '#f4f5f5',status:false },
+    { id:6,name: 'uni0A15', code: '#f4f5f5',status:false },
+    { id:7,name: 'uni0A16', code: '#f4f5f5',status:false },
+    { id:8,name: 'uni0A17', code: '#f4f5f5',status:false },
+    { id:9,name: 'uni0A18', code: '#f4f5f5',status:false },
+    { id:10,name: 'uni0A19', code: '#f4f5f5',status:false },
     
-    
+  ]);  
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
@@ -88,6 +107,7 @@ const Gurumukhi = () => {
                   <Text style={{ flex:1, fontSize: 16, lineHeight: 30, color:'#1D2359', textAlign:'right' }}></Text>
                   <Button  onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
               icon={
+                  
               <Icon
                 name="bug"
                 size={30}
@@ -112,7 +132,28 @@ const Gurumukhi = () => {
              
            
           </View>
-            <Text style={styles.title}>Gurmukhi</Text>
+            <Text style={styles.title}>Row1</Text>
+            <Card containerStyle={{borderRadius:10, height:230,width:230, marginRight:1, marginLeft:1,}}>
+            <TouchableOpacity  onPress={onPress}>
+                  <Button type="clear"
+                  icon = {
+                    isIos?
+                    <CustomIcon name="uni0A09" size={150}></CustomIcon>
+                    :<AndroidCustomIcon name="uni0A09" size={150}></AndroidCustomIcon>
+                  }
+                  />
+                </TouchableOpacity>  
+                
+            <TouchableOpacity  >
+                  <Button type="clear" onPress={onAudioPlay}
+                  title="Oorra"
+                  icon = {
+                    <Icon name="volume-medium-outline"style={{marginLeft:20}} size={20}></Icon>
+                  }
+                  iconRight
+                  />
+                </TouchableOpacity>
+            </Card>
             <FlatGrid
           itemDimension={60}
           data={items}
@@ -122,11 +163,10 @@ const Gurumukhi = () => {
               
               <TouchableOpacity  onPress={onPress}>
                   <Button type="clear" disabledStyle={{backgroundColor:colors.grey0}}  disabled={item.status}
-                  
-                 icon = {
-                   isIos?
+                  icon = {
+                    isIos?
                     <CustomIcon name={item.name} size={40}></CustomIcon>
-                    :<AndroidCustomIcon name={item.name} size={40}></AndroidCustomIcon>
+                    : <AndroidCustomIcon name={item.name} size={40}></AndroidCustomIcon>
                   }
                   />
                 </TouchableOpacity>  
@@ -212,4 +252,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Gurumukhi;
+export default GurumukhiDetails;

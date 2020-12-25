@@ -9,7 +9,9 @@ const Screen = Stack.Screen;
 const ROUTERS = {
     Onboarding: 'Onboarding',
     Home: 'Home',
-    Categories: 'Categories',
+    Gurumukhi: 'Gurumukhi',
+    Gurumukhi2ndScreen:'Gurumukhi2ndScreen',
+    Details: 'Details',
     ReportIssue: 'Report',
 };
 
