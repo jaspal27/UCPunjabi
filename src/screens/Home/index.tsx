@@ -30,7 +30,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
-declare const global: {HermesInternal: null | {}};
+
 
 const Home = () => {
     const {navigate} = useNavigation();

@@ -23,3 +23,6 @@ export function navigate(name: string, params?: any) {
     // @ts-ignore
     navigationRef?.current?.navigate(name, params);
 }
+export function navigateModal(name:string,params?:any){
+    
+}

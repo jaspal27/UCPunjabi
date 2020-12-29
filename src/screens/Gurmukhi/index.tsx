@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {Fragment, useCallback,useEffect, useRef } from 'react';
+import React, {Fragment, useCallback,useEffect, useRef,Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,6 +24,7 @@ import { Button, colors } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Container, Header, Content, Body, Left,Right, Title,List,ListItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
+import { EventRegister } from 'react-native-event-listeners'
 
 import {
   LearnMoreLinks,
@@ -35,69 +36,64 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
-
+import {lettersData} from "utils/letters";
 declare const global: {HermesInternal: null | {}};
 var isIos = false;
 if(Platform.OS == 'ios'){
   isIos = true;
 }
+
 const Gurumukhi = () => {
-    const {navigate} = useNavigation();
+  let listner:any; 
+  const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
         navigate(ROUTERS.Gurumukhi);
     },[]);
     const onSkipPress = useCallback(()=>{
+      if(listner){
+        EventRegister.removeEventListener(listner)
+      }
+      
       navigate(ROUTERS.Home);
   },[]);
-  const onPress = useCallback(()=>{
-    navigate(ROUTERS.Gurumukhi2ndScreen);
-},[]);
-
-  const [items, setItems] = React.useState([
-      { id:1, name: 'uni0A09', code: '#f4f5f5',status:true,audioId:'l01'},
-      { id:2,name: 'uni0A05', code: '#f4f5f5',status:false },
-      { id:3,name: 'uni0A07', code: '#f4f5f5',status:false },
-      { id:4,name: 'uni0A38', code: '#f4f5f5',status:false },
-      { id:5,name: 'uni0A39', code: '#f4f5f5',status:false },
-      { id:6,name: 'uni0A15', code: '#f4f5f5',status:false },
-      { id:7,name: 'uni0A16', code: '#f4f5f5',status:false },
-      { id:8,name: 'uni0A17', code: '#f4f5f5',status:false },
-      { id:9,name: 'uni0A18', code: '#f4f5f5',status:false },
-      { id:10,name: 'uni0A19', code: '#f4f5f5',status:false },
+  const onAlphabetPress = (item:any) =>{
+    listner = EventRegister.addEventListener('myCustomEvent', (data:number) => {
+      console.log(data);
       
-    ]);  
-    
-    
+      let tempItems = letters.slice()
+      tempItems[data]['status'] = true
+      setLetters(tempItems)
+    })
+    console.log(item)
+    navigate(ROUTERS.Gurumukhi2ndScreen,item);
+  }
+  // 
+  let [letters, setLetters] = React.useState(lettersData)
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
       <View style={{flexDirection: 'row',backgroundColor: "#2f85a4",paddingTop:30}}>
-      <TouchableOpacity   >
-              <Button onPress={onSkipPress}  style={styles.buttonSkipText} type="clear"
-              icon={
+        <TouchableOpacity   >
+          <Button onPress={onSkipPress}  style={styles.buttonSkipText} type="clear"
+            icon={
               <Icon
                 name="arrow-back"
                 size={30}
                 color="black"
               />
             }>
-              </Button>
-              
-            </TouchableOpacity> 
-            
-                  <Text style={{ flex:1, fontSize: 16, lineHeight: 30, color:'#1D2359', textAlign:'right' }}></Text>
-                  <Button  onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
-              icon={
-              <Icon
-                name="bug"
-                size={30}
-                color="black"
-              />
-            }>
-              </Button>
-              
-      
-           
+          </Button>
+        </TouchableOpacity> 
+        <Text style={{ flex:1, fontSize: 16, lineHeight: 30, color:'#1D2359', textAlign:'right' }}></Text>
+        <Button  onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
+                icon={
+                  <Icon
+                    name="bug"
+                    size={30}
+                    color="black"
+                  />
+                }>
+        </Button>
       </View >
       <View style={{
                 flex: 1,
@@ -106,21 +102,16 @@ const Gurumukhi = () => {
                 justifyContent: 'space-around',
                 paddingBottom: 250
               }}>
-             
-            <View >
-            
-             
-           
-          </View>
-            <Text style={styles.title}>Gurmukhi</Text>
-            <FlatGrid
+      <View></View>
+      <Text style={styles.title}>Gurmukhi</Text>
+      <FlatGrid
           itemDimension={60}
-          data={items}
+          data={letters}
           style={styles.gridView}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
               
-              <TouchableOpacity  onPress={onPress}>
+              <TouchableOpacity onPress={() => onAlphabetPress(item)}>
                   <Button type="clear" disabledStyle={{backgroundColor:colors.grey0}}  disabled={item.status}
                   
                  icon = {
@@ -134,9 +125,6 @@ const Gurumukhi = () => {
             )}
           />
           </View>
-          
-        
-      
     </>
   );
 };

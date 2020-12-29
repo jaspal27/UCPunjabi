@@ -51,7 +51,7 @@ const GurumukhiDetails = () => {
         navigate(ROUTERS.Gurumukhi2ndScreen);
     },[]);
     const onSkipPress = useCallback(()=>{
-      navigate(ROUTERS.Home);
+      navigate(ROUTERS.Gurumukhi2ndScreen);
   },[]);
   const onPress = useCallback(()=>{
     navigate(ROUTERS.Gurumukhi2ndScreen);

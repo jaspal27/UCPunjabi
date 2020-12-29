@@ -18,13 +18,16 @@ import {
   TouchableOpacity,
   FlatList,
   StatusBar,
-  Platform
+  Platform,
+  
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { Button, colors,Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Container, Header, Content, Body, Left,Right, Title,List,ListItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
-
+import { EventRegister } from 'react-native-event-listeners'
+import {lettersData} from "utils/letters";
 import {
   LearnMoreLinks,
   Colors,
@@ -35,6 +38,7 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
+
 import {
     Player,
     Recorder,
@@ -45,23 +49,33 @@ var isIos = false;
 if(Platform.OS == 'ios'){
   isIos = true;
 }
-const Gurumukhi2ndScreen = () => {
+const Gurumukhi2ndScreen = ({route}) => {
+  let letterId=0
+  let itemParams:any;
+    if (route.params){
+      itemParams = route.params
+      letterId = itemParams.id -1
+    }
+  let tempArray = lettersData.slice(letterId,letterId+5)
+  let [letters, setLetters] = React.useState(tempArray);
     const {navigate} = useNavigation();
+    
     const onNextScreen = useCallback(()=>{
         navigate(ROUTERS.Gurumukhi);
+        
     },[]);
     const onSkipPress = useCallback(()=>{
-      navigate(ROUTERS.Home);
+      navigate(ROUTERS.Gurumukhi);
   },[]);
   const onPress = useCallback(()=>{
     navigate(ROUTERS.Details);
   },[]);
   const onAudioPlay = useCallback(() =>{
   //  let audio = new Audio()
-    
+    EventRegister.emit('myCustomEvent', itemParams.id)
     try {
         // play the file tone.mp3
-        let player = new Player("l01.mp3");
+        let player = new Player(itemParams.audioId+".mp3");
         player.play().on('ended',() =>{
             console.log('ended');
         })
@@ -74,19 +88,7 @@ const Gurumukhi2ndScreen = () => {
    // audio.playAudioLetters('l01')
   },[])
 
-  const [items, setItems] = React.useState([
-    { id:1, name: 'uni0A09', code: '#f4f5f5',status:true,audioId:'l01'},
-    { id:2,name: 'uni0A05', code: '#f4f5f5',status:false },
-    { id:3,name: 'uni0A07', code: '#f4f5f5',status:false },
-    { id:4,name: 'uni0A38', code: '#f4f5f5',status:false },
-    { id:5,name: 'uni0A39', code: '#f4f5f5',status:false },
-    { id:6,name: 'uni0A15', code: '#f4f5f5',status:false },
-    { id:7,name: 'uni0A16', code: '#f4f5f5',status:false },
-    { id:8,name: 'uni0A17', code: '#f4f5f5',status:false },
-    { id:9,name: 'uni0A18', code: '#f4f5f5',status:false },
-    { id:10,name: 'uni0A19', code: '#f4f5f5',status:false },
     
-  ]);  
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
@@ -138,15 +140,15 @@ const Gurumukhi2ndScreen = () => {
                   <Button type="clear"
                   icon = {
                     isIos?
-                    <CustomIcon name="uni0A09" size={150}></CustomIcon>
-                    :<AndroidCustomIcon name="uni0A09" size={150}></AndroidCustomIcon>
+                    <CustomIcon name= {itemParams.name} size={150}></CustomIcon>
+                    :<AndroidCustomIcon name= {itemParams.name} size={150}></AndroidCustomIcon>
                   }
                   />
                 </TouchableOpacity>  
                 
             <TouchableOpacity  >
                   <Button type="clear" onPress={onAudioPlay}
-                  title="Oorra"
+                  title={itemParams.description}
                   icon = {
                     <Icon name="volume-medium-outline"style={{marginLeft:20}} size={20}></Icon>
                   }
@@ -156,7 +158,7 @@ const Gurumukhi2ndScreen = () => {
             </Card>
             <FlatGrid
           itemDimension={60}
-          data={items}
+          data={letters}
           style={styles.gridView}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
