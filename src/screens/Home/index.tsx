@@ -30,10 +30,11 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
-
-
+import database from "utils/database"
 const Home = () => {
-    const {navigate} = useNavigation();
+  // check if the data exist in the local storage. if not then save the data to the database
+  database.fetchLettersData()
+   const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
         navigate(ROUTERS.Gurumukhi);
     },[]);

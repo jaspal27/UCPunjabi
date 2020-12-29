@@ -27,7 +27,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Container, Header, Content, Body, Left,Right, Title,List,ListItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
 import { EventRegister } from 'react-native-event-listeners'
-import {lettersData} from "utils/letters";
+import database from "utils/database";
 import {
   LearnMoreLinks,
   Colors,
@@ -38,7 +38,7 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import {
     Player,
     Recorder,
@@ -56,8 +56,9 @@ const Gurumukhi2ndScreen = ({route}) => {
       itemParams = route.params
       letterId = itemParams.id -1
     }
-  let tempArray = lettersData.slice(letterId,letterId+5)
-  let [letters, setLetters] = React.useState(tempArray);
+    let lettersData:[] =database.getLettersData()
+    let tempArray = lettersData.slice(letterId,letterId+5)
+    let [letters, setLetters] = React.useState(lettersData)
     const {navigate} = useNavigation();
     
     const onNextScreen = useCallback(()=>{
@@ -71,6 +72,9 @@ const Gurumukhi2ndScreen = ({route}) => {
     navigate(ROUTERS.Details);
   },[]);
   const onAudioPlay = useCallback(() =>{
+    let tempItems:any = letters.slice()
+    tempItems[itemParams.id].['status'] = true
+    setLetters(tempItems)
   //  let audio = new Audio()
     EventRegister.emit('myCustomEvent', itemParams.id)
     try {
@@ -105,7 +109,7 @@ const Gurumukhi2ndScreen = ({route}) => {
               </Button>
               
             </TouchableOpacity> 
-            
+                  
                   <Text style={{ flex:1, fontSize: 16, lineHeight: 30, color:'#1D2359', textAlign:'right' }}></Text>
                   <Button  onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
               icon={

@@ -36,7 +36,7 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTERS} from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
-import {lettersData} from "utils/letters";
+import database from "utils/database";
 declare const global: {HermesInternal: null | {}};
 var isIos = false;
 if(Platform.OS == 'ios'){
@@ -45,6 +45,10 @@ if(Platform.OS == 'ios'){
 
 const Gurumukhi = () => {
   let listner:any; 
+  
+  let lettersData:[] =database.getLettersData()
+  let [letters, setLetters] = React.useState(lettersData)
+
   const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
         navigate(ROUTERS.Gurumukhi);
@@ -60,15 +64,18 @@ const Gurumukhi = () => {
     listner = EventRegister.addEventListener('myCustomEvent', (data:number) => {
       console.log(data);
       
-      let tempItems = letters.slice()
-      tempItems[data]['status'] = true
+      let tempItems:any = letters.slice()
+      tempItems[data].['status'] = true
       setLetters(tempItems)
+      database.setLetterData(tempItems)
+      
     })
     console.log(item)
     navigate(ROUTERS.Gurumukhi2ndScreen,item);
   }
+  
   // 
-  let [letters, setLetters] = React.useState(lettersData)
+  
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
