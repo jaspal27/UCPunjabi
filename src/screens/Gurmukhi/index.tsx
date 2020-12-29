@@ -107,7 +107,7 @@ const Gurumukhi = () => {
                 backgroundColor: "#2f85a4",
                 alignItems: 'center',
                 justifyContent: 'space-around',
-                paddingBottom: 250
+                paddingBottom: 50
               }}>
       <View></View>
       <Text style={styles.title}>Gurmukhi</Text>
@@ -139,20 +139,20 @@ const Gurumukhi = () => {
 const styles = StyleSheet.create({
   MainContainer: { 
    flex: 1, 
-   paddingTop: 20, 
+   paddingTop: 10, 
    alignItems: 'center', 
    justifyContent: 'center', 
    padding: 20 
   },
   gridView: {
-    marginTop: 10,
+    marginTop: 5,
     flex: 1,
   },
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
-    padding: 10,
-    height: 100,
+    padding: 5,
+    height: 70,
   }, 
   buttonContainer: {
     flexDirection: 'row',
