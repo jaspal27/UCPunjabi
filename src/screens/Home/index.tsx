@@ -36,7 +36,7 @@ const Home = () => {
   database.fetchLettersData()
    const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
-        navigate(ROUTERS.Gurumukhi);
+        navigate(ROUTERS.Gurmukhi);
     },[]);
     const onSkipPress = useCallback(()=>{
       navigate(ROUTERS.Home);

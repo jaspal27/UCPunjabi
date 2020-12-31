@@ -43,39 +43,39 @@ if(Platform.OS == 'ios'){
   isIos = true;
 }
 
-const Gurumukhi = () => {
-  let listner:any; 
-  
+const Gurmukhi = () => {
+  let listner:any;
+
   let lettersData:[] =database.getLettersData()
   let [letters, setLetters] = React.useState(lettersData)
 
   const {navigate} = useNavigation();
     const onNextScreen = useCallback(()=>{
-        navigate(ROUTERS.Gurumukhi);
+        navigate(ROUTERS.Gurmukhi);
     },[]);
     const onSkipPress = useCallback(()=>{
       if(listner){
         EventRegister.removeEventListener(listner)
       }
-      
+
       navigate(ROUTERS.Home);
   },[]);
   const onAlphabetPress = (item:any) =>{
     listner = EventRegister.addEventListener('myCustomEvent', (data:number) => {
       console.log(data);
-      
+
       let tempItems:any = letters.slice()
       tempItems[data].['status'] = true
       setLetters(tempItems)
       database.setLetterData(tempItems)
-      
+
     })
     console.log(item)
-    navigate(ROUTERS.Gurumukhi2ndScreen,item);
+    navigate(ROUTERS.Gurmukhi2ndScreen,item);
   }
-  
-  // 
-  
+
+  //
+
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
@@ -90,7 +90,7 @@ const Gurumukhi = () => {
               />
             }>
           </Button>
-        </TouchableOpacity> 
+        </TouchableOpacity>
         <Text style={{ flex:1, fontSize: 16, lineHeight: 30, color:'#1D2359', textAlign:'right' }}></Text>
         <Button  onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
                 icon={
@@ -107,7 +107,7 @@ const Gurumukhi = () => {
                 backgroundColor: "#2f85a4",
                 alignItems: 'center',
                 justifyContent: 'space-around',
-                paddingBottom: 50
+                paddingBottom: 20
               }}>
       <View></View>
       <Text style={styles.title}>Gurmukhi</Text>
@@ -117,17 +117,17 @@ const Gurumukhi = () => {
           style={styles.gridView}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
-              
+
               <TouchableOpacity onPress={() => onAlphabetPress(item)}>
                   <Button type="clear" disabledStyle={{backgroundColor:colors.grey0}}  disabled={item.status}
-                  
+
                  icon = {
                    isIos?
-                    <CustomIcon name={item.name} size={40}></CustomIcon>
-                    :<AndroidCustomIcon name={item.name} size={40}></AndroidCustomIcon>
+                    <CustomIcon name={item.name} size={32}></CustomIcon>
+                    :<AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
                   }
                   />
-                </TouchableOpacity>  
+                </TouchableOpacity>
                 </View>
             )}
           />
@@ -137,23 +137,23 @@ const Gurumukhi = () => {
 };
 
 const styles = StyleSheet.create({
-  MainContainer: { 
-   flex: 1, 
-   paddingTop: 10, 
-   alignItems: 'center', 
-   justifyContent: 'center', 
-   padding: 20 
+  MainContainer: {
+   flex: 1,
+   paddingTop: 10,
+   alignItems: 'center',
+   justifyContent: 'center',
+   padding: 20
   },
   gridView: {
-    marginTop: 5,
+    marginTop: 10,
     flex: 1,
   },
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
-    padding: 5,
+    padding:10,
     height: 70,
-  }, 
+  },
   buttonContainer: {
     flexDirection: 'row',
     width:100,
@@ -169,8 +169,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '500',
     fontSize:16,
-    
-    
   },
   buttonText: {
     width:300,
@@ -188,14 +186,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth:1
   },
-   
+
   slide: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'blue',
     },
-   
+
     text: {
       color: 'rgba(255, 255, 255, 0.8)',
       textAlign: 'center',
@@ -207,4 +205,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Gurumukhi;
+export default Gurmukhi;

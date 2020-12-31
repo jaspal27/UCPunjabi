@@ -9,7 +9,7 @@ import Walkthroughs from "screens/Walkthroughs";
 import Home from "screens/Home";
 import Gurmukhi from "screens/Gurmukhi";
 import GurmukhiDetails from "screens/Gurmukhi/Details"
-import Gurumukhi2ndScreen from "screens/Gurmukhi/Gurmukhi2nd"
+import Gurmukhi2ndScreen from "screens/Gurmukhi/Gurmukhi2nd"
 import {Platform} from "react-native";
 
 const optionNavigator: any = {
@@ -46,8 +46,8 @@ const MainNavigation = memo(() => {
                     initialRouteName={ROUTERS.Onboarding}
                 >
                     <Screen name={ROUTERS.Onboarding} component={Walkthroughs} options={optionNavigator}/>
-                    <Screen name={ROUTERS.Gurumukhi} component={Gurmukhi} options={optionNavigator}/>
-                    <Screen name={ROUTERS.Gurumukhi2ndScreen} component={Gurumukhi2ndScreen} options={optionNavigator}/>
+                    <Screen name={ROUTERS.Gurmukhi} component={Gurmukhi} options={optionNavigator}/>
+                    <Screen name={ROUTERS.Gurmukhi2ndScreen} component={Gurmukhi2ndScreen} options={optionNavigator}/>
                     <Screen name = {ROUTERS.Details} component = {GurmukhiDetails} options={optionNavigator}/>
                     <Screen name={ROUTERS.Home} component={Home} options={optionNavigator}/>
                     
