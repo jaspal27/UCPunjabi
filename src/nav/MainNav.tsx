@@ -20,9 +20,9 @@ const optionNavigator: any = {
 
 
 const MainNavigation = memo(() => {
-    useEffect (()=>{
+    useEffect(() => {
         SplashScreen.hide();
-      },[]);
+    }, []);
     const drawer = useRef();
     const onClose = useCallback(() => {
         // @ts-ignore
@@ -34,26 +34,26 @@ const MainNavigation = memo(() => {
     }, []);
 
     return (
-        
-            <NavigationContainer
-                // @ts-ignore
-                ref={navigationRef}>
-                <Navigator
-                    screenOptions={{
-                        headerShown: false,
-                        gestureEnabled:false
-                    }}
-                    initialRouteName={ROUTERS.Onboarding}
-                >
-                    <Screen name={ROUTERS.Onboarding} component={Walkthroughs} options={optionNavigator}/>
-                    <Screen name={ROUTERS.Gurmukhi} component={Gurmukhi} options={optionNavigator}/>
-                    <Screen name={ROUTERS.Gurmukhi2ndScreen} component={Gurmukhi2ndScreen} options={optionNavigator}/>
-                    <Screen name = {ROUTERS.Details} component = {GurmukhiDetails} options={optionNavigator}/>
-                    <Screen name={ROUTERS.Home} component={Home} options={optionNavigator}/>
-                    
-                </Navigator>
-            </NavigationContainer>
-      
+
+        <NavigationContainer
+            // @ts-ignore
+            ref={navigationRef}>
+            <Navigator
+                screenOptions={{
+                    headerShown: false,
+                    gestureEnabled: false
+                }}
+                initialRouteName={ROUTERS.Onboarding}>
+
+                <Screen name={ROUTERS.Onboarding} component={Walkthroughs} options={optionNavigator} />
+                <Screen name={ROUTERS.Gurmukhi} component={Gurmukhi} options={optionNavigator} />
+                <Screen name={ROUTERS.Gurmukhi2ndScreen} component={Gurmukhi2ndScreen} options={optionNavigator} />
+                <Screen name={ROUTERS.Details} component={GurmukhiDetails} options={optionNavigator} />
+                <Screen name={ROUTERS.Home} component={Home} options={optionNavigator} />
+
+            </Navigator>
+        </NavigationContainer>
+
 
     );
 });

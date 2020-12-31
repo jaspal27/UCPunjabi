@@ -53,13 +53,15 @@ if (Platform.OS == 'ios') {
 }
 declare const NumLetters = 41;  // This is the number of letters in the script
 
-const Gurmukhi2ndScreen = ({ route }) => {
+const Gurmukhi2ndScreen = ({route}) => {
   let letterId = 0
   let itemParams: any;
+
   if (route.params) {
     itemParams = route.params
     letterId = itemParams.id - 1
   }
+
   // set row number;  it  is used in screen title in View
   let rowNum = itemParams.rowNum
 
@@ -82,42 +84,31 @@ const Gurmukhi2ndScreen = ({ route }) => {
   }, []);
 
   const onPress = useCallback(() => {
-    navigate(ROUTERS.Details);
+    //navigate(ROUTERS.Details);
   }, []);
 
   const onAudioPlay = useCallback(() => {
     let tempItems: any = letters.slice()
-    let index = itemParams.id
+    let index = itemParams.id   //use itemParams.id as index for managing letter states 
 
     // Reset index if it is the last letter in the script
     if (index == 41) {
-      index = 0
-    }
-
-    // Remap the index if it is going past the current row
-    if (index >= 5) {
-      index = itemParams.id % 5
+      index = 40
     }
 
     // Make the next letter active
-    tempItems[index].['status'] = true
-    // tempItems[itemParams.id].['status'] = true
-
+    lettersData[index].['status'] = true
 
     setLetters(tempItems)
 
-    //  let audio = new Audio()
-    // EventRegister.emit('myCustomEvent', itemParams.id)
     EventRegister.emit('myCustomEvent', index)
 
     try {
-      // play the file tone.mp3
+      // play audio for the given letter
       let player = new Player(itemParams.audioId + ".mp3");
       player.play().on('ended', () => {
         console.log('ended');
       })
-      //SoundPlayer.playSoundFile('tone', 'mp3')
-
     } catch (e) {
       console.log(`cannot play the sound file`, e)
     }
