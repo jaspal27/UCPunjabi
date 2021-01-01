@@ -53,7 +53,7 @@ if (Platform.OS == 'ios') {
 }
 declare const NumLetters = 41;  // This is the number of letters in the script
 
-const Gurmukhi2ndScreen = ({route}) => {
+const WordFormationDetails = ({route}) => {
   let letterId = 0
   let itemParams :any;
   if (route.params) {
@@ -105,7 +105,7 @@ const Gurmukhi2ndScreen = ({route}) => {
 
     setLetters(tempItems)
 
-    EventRegister.emit('myCustomEvent', index)
+    EventRegister.emit('wordFormationEvent', index)
 
     try {
       // play audio for the given letter
@@ -184,25 +184,7 @@ const Gurmukhi2ndScreen = ({route}) => {
             />
           </TouchableOpacity>
         </Card>
-        <FlatGrid
-          itemDimension={60}
-          data={letters}
-          style={styles.gridView}
-          renderItem={({ item }) => (
-            <View style={[styles.itemContainer]}>
-
-              <TouchableOpacity onPress={() => onAlphabetPress(item)} >
-                <Button type="clear"  disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
-                  icon={
-                    isIos ?
-                      <CustomIcon name={item.name} size={32}></CustomIcon>
-                      : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
-                  }
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+        
       </View>
     </>
   );
@@ -275,4 +257,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Gurmukhi2ndScreen;
+export default WordFormationDetails;

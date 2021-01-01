@@ -38,6 +38,9 @@ const Home = () => {
     const onNextScreen = useCallback(()=>{
         navigate(ROUTERS.Gurmukhi);
     },[]);
+    const onWordFormation = useCallback(()=>{
+      navigate(ROUTERS.WordFormation);
+    },[])
     const onSkipPress = useCallback(()=>{
       navigate(ROUTERS.Home);
   },[]);
@@ -78,7 +81,7 @@ const Home = () => {
           </View>
             <Text style={styles.title}>{item.title}</Text>
             <Button  titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text1} type="outline" onPress ={onNextScreen} />
-            <Button titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text2} type="outline"/>
+            <Button titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text2} type="outline" onPress ={onWordFormation}/>
             <Button titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text3} type="outline"/>
             <Button titleStyle= {[styles.buttonText]} containerStyle={ styles.buttonOutline } title={item.text4} type="clear"/>
             <Button

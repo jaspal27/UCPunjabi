@@ -8,6 +8,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Button } from 'react-native-elements';
 const {width: viewportWidth} = Dimensions.get('window');
 import LinearGradient from 'react-native-linear-gradient';
+import database from "utils/database"
 
 function wp(percentage: number) {
     const value = (percentage * viewportWidth) / 100;
@@ -23,7 +24,7 @@ export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
 
 const Walkthroughs = memo(() => {
-  
+    database.removeLettersDatabase();
     const {navigate} = useNavigation();
     const [indexActive, setIndex] = useState(0);
     

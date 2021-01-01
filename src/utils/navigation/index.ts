@@ -12,6 +12,8 @@ const ROUTERS = {
     Gurmukhi: 'Gurmukhi',
     Gurmukhi2ndScreen:'Gurmukhi2ndScreen',
     Details: 'Details',
+    WordFormation:'WordFormation',
+    WordFormationDetails:'WordFormationDetails',
     ReportIssue: 'Report',
 };
 

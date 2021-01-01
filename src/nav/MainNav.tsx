@@ -10,7 +10,9 @@ import Home from "screens/Home";
 import Gurmukhi from "screens/Gurmukhi";
 import GurmukhiDetails from "screens/Gurmukhi/Details"
 import Gurmukhi2ndScreen from "screens/Gurmukhi/Gurmukhi2nd"
+import WordFormation from "screens/WordFormation"
 import {Platform} from "react-native";
+import WordFormationDetails from 'screens/WordFormation/Details';
 
 const optionNavigator: any = {
     headerShown: false,
@@ -46,10 +48,13 @@ const MainNavigation = memo(() => {
                 initialRouteName={ROUTERS.Onboarding}>
 
                 <Screen name={ROUTERS.Onboarding} component={Walkthroughs} options={optionNavigator} />
+                <Screen name={ROUTERS.Home} component={Home} options={optionNavigator} />
                 <Screen name={ROUTERS.Gurmukhi} component={Gurmukhi} options={optionNavigator} />
                 <Screen name={ROUTERS.Gurmukhi2ndScreen} component={Gurmukhi2ndScreen} options={optionNavigator} />
                 <Screen name={ROUTERS.Details} component={GurmukhiDetails} options={optionNavigator} />
-                <Screen name={ROUTERS.Home} component={Home} options={optionNavigator} />
+                <Screen name={ROUTERS.WordFormation} component={WordFormation} options={optionNavigator} />
+                <Screen name={ROUTERS.WordFormationDetails} component={WordFormationDetails} options={optionNavigator} />
+                
 
             </Navigator>
         </NavigationContainer>
