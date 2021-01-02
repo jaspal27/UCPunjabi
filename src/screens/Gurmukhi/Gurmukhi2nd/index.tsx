@@ -50,9 +50,10 @@ import LinearGradient from 'react-native-linear-gradient'
 
 declare const global: { HermesInternal: null | {} };
 var isIos = false;
-
+let topBarBackButton=30;
 if (Platform.OS == 'ios') {
   isIos = true;
+  topBarBackButton=10;
 }
 
 const Gurmukhi2ndScreen = ({ route }) => {
@@ -163,7 +164,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 10 }}>
+      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: topBarBackButton }}>
         <TouchableOpacity>
           <Button onPress={onPrevScreen} style={styles.buttonSkipText} type="clear"
             icon={

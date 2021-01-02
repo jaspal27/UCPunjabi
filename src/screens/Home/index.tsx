@@ -62,8 +62,8 @@ const Home = () => {
   }
   return (
     <>
-      {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-
+     <StatusBar backgroundColor={'transparent'} translucent={true} />
+      
       <View style={{
         flex: 1,
         backgroundColor: item.backgroundColor,

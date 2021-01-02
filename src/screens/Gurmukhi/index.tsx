@@ -42,9 +42,13 @@ import LinearGradient from 'react-native-linear-gradient'
 
 declare const global: { HermesInternal: null | {} };
 var isIos = false;
+let headerMarginTop = 0;
+let gridViewTop=0;
 
 if (Platform.OS == 'ios') {
   isIos = true;
+  headerMarginTop = 23;
+  gridViewTop = 10;
 }
 
 const Gurmukhi = () => {
@@ -83,7 +87,7 @@ const Gurmukhi = () => {
 
   return (
     <>
-      {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+      
       <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
         <TouchableOpacity   >
           <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
@@ -96,7 +100,8 @@ const Gurmukhi = () => {
             }>
           </Button>
         </TouchableOpacity>
-        <Text style={{ fontSize: 30, marginTop: 23, marginLeft: 96, color: '#1D2359', textAlign: 'center' }}>Gurmukhi</Text>
+        
+        <Text style={{ fontSize: 30, marginTop: headerMarginTop, marginLeft: 96, color: '#1D2359', textAlign: 'center' }}>Gurmukhi</Text>
         {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
@@ -173,7 +178,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   gridView: {
-    marginTop: 10,
+    marginTop: gridViewTop,
     flex: 1,
   },
   itemContainer: {
