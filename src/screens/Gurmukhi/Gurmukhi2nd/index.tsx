@@ -45,21 +45,25 @@ import {
   MediaStates
 } from '@react-native-community/audio-toolkit';
 
+import LinearGradient from 'react-native-linear-gradient'
+import { BlurView, VibrancyView } from "@react-native-community/blur";
+
 declare const global: { HermesInternal: null | {} };
 var isIos = false;
 
 if (Platform.OS == 'ios') {
   isIos = true;
 }
-declare const NumLetters = 41;  // This is the number of letters in the script
 
-const Gurmukhi2ndScreen = ({route}) => {
+const Gurmukhi2ndScreen = ({ route }) => {
   let letterId = 0
-  let itemParams :any;
+  let itemParams: any;
+
   if (route.params) {
     itemParams = route.params
     letterId = itemParams.id - 1
   }
+
   let [cardItem, setCardItem] = React.useState(itemParams)
   // set row number;  it  is used in screen title in View
   let rowNum = itemParams.rowNum
@@ -74,62 +78,94 @@ const Gurmukhi2ndScreen = ({route}) => {
 
   const { navigate } = useNavigation();
 
-  const onNextScreen = useCallback(() => {
+  const onPrevScreen = useCallback(() => {
     navigate(ROUTERS.Gurmukhi);
   }, []);
 
-  const onSkipPress = useCallback(() => {
-    navigate(ROUTERS.WordFormation);
+  const onNextLetterPress = useCallback((item: any) => {
+
+    //console.log('onNextLetterPress item.id=', item.id)
+    let tempItems: any = letters.slice()
+    //console.log('onNextLetterPress tempItems=', tempItems)
+    let index = item.id   //use item.id as index for managing letter states 
+
+    // Reset index if it is the last letter in the script
+    /* 
+    if (index == 41) {
+      index = 40
+    }
+    */
+
+    /*
+    if (index < 41){
+      item = tempItems[index]
+    }
+    // Make the next letter active
+    //lettersData[index].['status'] = true
+    
+    setCardItem(item);
+    setLetters(tempItems)
+
+    EventRegister.emit('myCustomEvent', index)
+    */
   }, []);
 
+  /*
   const onPress = useCallback(() => {
     //navigate(ROUTERS.Details);
-    console.log('clciked me');
+    console.log('letter pressed');
   }, []);
-  const onAlphabetPress = (item: any) => {
+  */ 
+
+  const onLetterPress = (item: any) => {
+    //console.log('onLetterPress item.id=', item.id)
     setCardItem(item);
   }
-  const onVolumePress = (item:any) =>{
-    console.log(item.id);
-    console.log('test here')
+
+  // the next line was 'const onAudioPlay = useCallback(() =>' before
+  const onAudioPlay = (item: any) => {
+    //console.log('onAudioPlay item.id=', item.id)
+
     let tempItems: any = letters.slice()
-    let index = item.id   //use cardItem.id as index for managing letter states 
+    //console.log('L130 onAudioPlay rowNum=', rowNum)
+    let index = item.id   //use item.id as index for managing letter states 
 
     // Reset index if it is the last letter in the script
     if (index == 41) {
       index = 40
     }
+    else if ((index % 5) == 0){
+      // We are at the end of a row and next row needs to be loaded
+      rowNum = rowNum+1;
+      let tempArray = lettersData.slice(index, index + 5)
+      //console.log('L141 onAudioPlay rowNum=', rowNum)
+      tempItems = tempArray
+    }
 
     // Make the next letter active
     lettersData[index].['status'] = true
-
     setLetters(tempItems)
 
     EventRegister.emit('myCustomEvent', index)
+    
 
     try {
       // play audio for the given letter
       let player = new Player(item.audioId + ".mp3");
       player.play().on('ended', () => {
-        console.log('ended');
+        console.log('audio played');
       })
     } catch (e) {
-      console.log(`cannot play the sound file`, e)
+      console.log(`unable to play audio`, e)
     }
-    //SoundPlayer.playUrl('audio/letters/l01.mp3')
-    // audio.playAudioLetters('l01')
   }
-  const onAudioPlay = useCallback(() => {
-    
-  }, [])
-
 
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
+      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 10 }}>
         <TouchableOpacity>
-          <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
+          <Button onPress={onPrevScreen} style={styles.buttonSkipText} type="clear"
             icon={
               <Icon
                 name="arrow-back"
@@ -141,6 +177,8 @@ const Gurmukhi2ndScreen = ({route}) => {
         </TouchableOpacity>
 
         <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+        
+        {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
             <Icon
@@ -150,20 +188,27 @@ const Gurmukhi2ndScreen = ({route}) => {
             />
           }>
         </Button>
+        */}
       </View >
 
       <View style={{
         flex: 1,
-        backgroundColor: "#2f85a4",
+        backgroundColor: "#ffffff",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 250
+        paddingBottom: 120
       }}>
 
-        <View ></View>
+        <LinearGradient
+          colors={['#009DC2', '#FFFFFF' ]}
+          style={styles.linearGradient}
+        >
+        
 
+        <View ></View>
         <Text style={styles.title}>Row {rowNum}</Text>
-        <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, }}>
+        
+        <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf:'center' }}>
           <TouchableOpacity>
             <Button type="clear"
               icon={
@@ -175,15 +220,17 @@ const Gurmukhi2ndScreen = ({route}) => {
           </TouchableOpacity>
 
           <TouchableOpacity  >
-            <Button type="clear" onPress={() => onVolumePress(cardItem)} 
+            <Button type="clear" onPress={() => onAudioPlay(cardItem)}
               // title={itemParams.description} this is no longer  in use
               icon={
-                <Icon name="volume-medium-outline" style={{ marginLeft: 20 }} size={20}></Icon>
+                <Icon name="volume-medium-outline" style={{ marginLeft: 10 }} size={36}></Icon>
               }
               iconRight
             />
           </TouchableOpacity>
         </Card>
+        <Text/>
+        <Text style={styles.actionText}>Play audio to unlock the next letter.</Text>
         <FlatGrid
           itemDimension={60}
           data={letters}
@@ -191,19 +238,50 @@ const Gurmukhi2ndScreen = ({route}) => {
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
 
-              <TouchableOpacity onPress={() => onAlphabetPress(item)} >
-                <Button type="clear"  disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
+              <TouchableOpacity onPress={() => onLetterPress(item)} >
+              {/* Nirvair: commenting out this section to try conditional formatting of font colors
+                <Button type="clear" disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
                   icon={
                     isIos ?
                       <CustomIcon name={item.name} size={32}></CustomIcon>
                       : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
                   }
                 />
+                */}
+
+          {/*
+          <BlurView
+          style={styles.blurry}
+          blurType= 'light'
+          blurAmount= {10}
+          reducedTransparencyFallbackColor="white"
+          />
+          */}
+                <Button type="clear" disabled={item.status}
+                  icon={
+                    isIos ?
+                      // for iOS
+                      item.status ?  // letter unlocked or not
+                        <CustomIcon name={item.name} size={40}></CustomIcon>
+                        : <CustomIcon name={item.name}  size={40} color="#fffff8"></CustomIcon>
+                        : // for android
+                      item.status ?  // letter unlocked or not
+                        <AndroidCustomIcon name={item.name} size={40}></AndroidCustomIcon>
+                        : <AndroidCustomIcon name={item.name} size={40} color="#fffff8"></AndroidCustomIcon>
+                  }
+                />
               </TouchableOpacity>
             </View>
           )}
         />
+        </LinearGradient> 
+        {/*
+        <View>
+          <Button type="outline" titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title="Next Letter >>"  onPress={() => onNextLetterPress(cardItem)} />
+        </View>
+        */}
       </View>
+      
     </>
   );
 };
@@ -225,6 +303,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     height: 100,
+  },
+  linearGradient:{
+    alignItems : 'center',
+    justifyContent: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -256,7 +338,8 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     borderColor: 'black',
-    borderWidth: 1
+    borderWidth: 1,
+    paddingBottom: 0
   },
   slide: {
     flex: 1,
@@ -269,10 +352,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 36,
     color: 'black',
     textAlign: 'center',
+    paddingTop: 30,
+    paddingBottom: 30
   },
+  actionText: {
+    fontSize: 18,
+    color: 'black',
+    textAlign: 'center',
+    paddingTop: 20,
+    paddingBottom: 20
+  },
+  blurry:{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  }
 });
 
 export default Gurmukhi2ndScreen;

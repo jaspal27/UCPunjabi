@@ -70,7 +70,7 @@ const WordFormation = () => {
   }
 
   return (
-    
+
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
       <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
@@ -86,6 +86,7 @@ const WordFormation = () => {
           </Button>
         </TouchableOpacity>
         <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+        {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
             <Icon
@@ -95,7 +96,9 @@ const WordFormation = () => {
             />
           }>
         </Button>
+        */}
       </View >
+
       <View style={{
         flex: 1,
         backgroundColor: "#2f85a4",
@@ -111,25 +114,24 @@ const WordFormation = () => {
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
               <Button
-              type="outline"
-              titleStyle = {{color:colors.grey5}}
-              buttonStyle ={[{borderColor:colors.grey0},{width:'100%'}]}
-              onPress={() => onWordPress(item)}
-              
-                  icon={
-                    isIos ?
-                      <CustomIcon style={{marginRight:40,marginLeft:-80}} name={item.name} size={32}></CustomIcon>
-                      : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
-                  }
+                type="outline"
+                titleStyle={{ color: colors.grey5 }}
+                buttonStyle={[{ borderColor: colors.grey0 }, { width: '100%' }]}
+                onPress={() => onWordPress(item)}
+
+                icon={
+                  isIos ?
+                    <CustomIcon style={{ marginRight: 40, marginLeft: -80 }} name={item.name} size={32}></CustomIcon>
+                    : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
+                }
                 title={item.name}
               />
-              
+
             </View>
           )}
         />
       </View>
     </>
-    
   );
 };
 
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
   },
-  
+
 });
 
 export default WordFormation;
