@@ -1,20 +1,31 @@
-
 import AsyncStorage from '@react-native-community/async-storage';
 import {lettersData} from "utils/letters";
+import { lettersAndroidData} from "utils/android/letters";
+
 
   export default class database{
     static lettersObject:any = [];
-      static async fetchLettersData() {
+      static async fetchLettersData(platform:any) {
         
             try {
               const value = await AsyncStorage.getItem('letters');
+              let lettersJson = lettersData
               if (value !== null) {
                 // We have data!!
                 console.log(value);
                 database.lettersObject = JSON.parse(value)
               }else{
-                AsyncStorage.setItem('letters',JSON.stringify(lettersData))
-                database.lettersObject = lettersData
+                
+                if(platform === 'ios'){
+                  console.log('os name:' +platform)
+                  AsyncStorage.setItem('letters',JSON.stringify(lettersData))
+                }else{
+                  console.log('os name:' +platform)
+                  AsyncStorage.setItem('letters',JSON.stringify(lettersAndroidData))
+                  lettersJson = lettersAndroidData
+                }
+                
+                database.lettersObject = lettersJson
                 console.log('no data found')
               }
             } catch (error) {
@@ -27,6 +38,7 @@ import {lettersData} from "utils/letters";
       }
       static setLetterData(lettersData:[]){
         AsyncStorage.setItem('letters',JSON.stringify(lettersData))
+        
       }
       static async removeLettersDatabase(){
         try {

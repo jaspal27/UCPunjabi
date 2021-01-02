@@ -34,7 +34,7 @@ import database from "utils/database"
 
 const Home = () => {
   // check if the data exist in the local storage. if not then save the data to the database
-  database.fetchLettersData()
+  database.fetchLettersData(Platform.OS)
 
   const { navigate } = useNavigation();
 

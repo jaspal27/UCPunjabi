@@ -38,7 +38,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
-import AsyncStorage from '@react-native-community/async-storage';
+
 import {
   Player,
   Recorder,
@@ -46,7 +46,7 @@ import {
 } from '@react-native-community/audio-toolkit';
 
 import LinearGradient from 'react-native-linear-gradient'
-import { BlurView, VibrancyView } from "@react-native-community/blur";
+
 
 declare const global: { HermesInternal: null | {} };
 var isIos = false;
@@ -196,7 +196,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
         backgroundColor: "#ffffff",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 120
+        paddingBottom: 50
       }}>
 
         <LinearGradient
@@ -209,15 +209,14 @@ const Gurmukhi2ndScreen = ({ route }) => {
         <Text style={styles.title}>Row {rowNum}</Text>
         
         <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf:'center' }}>
-          <TouchableOpacity>
-            <Button type="clear"
+          <Button type="clear"  onPress={() => onAudioPlay(cardItem)}
               icon={
                 isIos ?
                   <CustomIcon name={cardItem.name} size={150}></CustomIcon>
                   : <AndroidCustomIcon name={cardItem.name} size={150}></AndroidCustomIcon>
               }
             />
-          </TouchableOpacity>
+          
 
           <TouchableOpacity  >
             <Button type="clear" onPress={() => onAudioPlay(cardItem)}
