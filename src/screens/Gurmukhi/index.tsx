@@ -37,8 +37,12 @@ import { ROUTERS } from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
 import database from "utils/database";
+
+import LinearGradient from 'react-native-linear-gradient'
+
 declare const global: { HermesInternal: null | {} };
 var isIos = false;
+
 if (Platform.OS == 'ios') {
   isIos = true;
 }
@@ -92,7 +96,8 @@ const Gurmukhi = () => {
             }>
           </Button>
         </TouchableOpacity>
-        <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+        <Text style={{ fontSize: 30, marginTop: 23, marginLeft: 96, color: '#1D2359', textAlign: 'center' }}>Gurmukhi</Text>
+        {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
             <Icon
@@ -102,16 +107,22 @@ const Gurmukhi = () => {
             />
           }>
         </Button>
+        */}
       </View >
       <View style={{
-        flex: 1,
-        backgroundColor: "#2f85a4",
+        flex: 0,
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 20
+        paddingBottom: 0
       }}>
+
+        <LinearGradient
+          colors={['#009DC2', '#FFFFFF' ]}
+          style={styles.linearGradient}
+        >
+
         <View></View>
-        <Text style={styles.title}>Gurmukhi</Text>
+        <Text style={styles.hint}>Start with the first letter and unlock the rest.</Text>
         <FlatGrid
           itemDimension={60}
           data={letters}
@@ -120,18 +131,34 @@ const Gurmukhi = () => {
             <View style={[styles.itemContainer]}>
 
               <TouchableOpacity onPress={() => onAlphabetPress(item)}>
+                {/* Nirvair: commenting out this section to try conditional formatting of font colors
                 <Button type="clear" disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
-
                   icon={
                     isIos ?
                       <CustomIcon name={item.name} size={32}></CustomIcon>
                       : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
                   }
                 />
+                */}
+                <Button type="clear"  disabled={item.status}
+                  icon={
+                    isIos ?
+                      // for iOS
+                      item.status ?
+                        <CustomIcon name={item.name} size={32}></CustomIcon>
+                        : <CustomIcon name={item.name} size={32} color="#fffff8"></CustomIcon>
+                      :  // for android
+                      item.status ?
+                        <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
+                        : <AndroidCustomIcon name={item.name} color="#fffff8" size={32}></AndroidCustomIcon>
+                  }
+                />
+
               </TouchableOpacity>
             </View>
           )}
         />
+        </LinearGradient>
       </View>
     </>
   );
@@ -153,7 +180,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     borderRadius: 5,
     padding: 10,
-    height: 70,
+    height: 68,
+  },
+  linearGradient:{
+    alignItems : 'center',
+    justifyContent: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -199,10 +230,12 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
   },
-  title: {
-    fontSize: 30,
+  hint: {
+    fontSize: 20,
     color: 'black',
+    marginTop: 8,
     textAlign: 'center',
+    width: 350
   },
 });
 
