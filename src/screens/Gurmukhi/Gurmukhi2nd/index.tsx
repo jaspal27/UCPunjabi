@@ -265,7 +265,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
                         : <CustomIcon name={item.name}  size={40} color="#fffff8"></CustomIcon>
                         : // for android
                       item.status ?  // letter unlocked or not
-                        <AndroidCustomIcon name={item.name} size={40}></AndroidCustomIcon>
+                        <AndroidCustomIcon name={item.name} color="#0e0e0f" size={40}></AndroidCustomIcon>
                         : <AndroidCustomIcon name={item.name} size={40} color="#fffff8"></AndroidCustomIcon>
                   }
                 />

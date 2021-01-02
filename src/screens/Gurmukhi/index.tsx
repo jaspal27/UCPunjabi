@@ -149,7 +149,7 @@ const Gurmukhi = () => {
                         : <CustomIcon name={item.name} size={32} color="#fffff8"></CustomIcon>
                       :  // for android
                       item.status ?
-                        <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
+                        <AndroidCustomIcon name={item.name} color="#0e0e0f" size={32}></AndroidCustomIcon>
                         : <AndroidCustomIcon name={item.name} color="#fffff8" size={32}></AndroidCustomIcon>
                   }
                 />
