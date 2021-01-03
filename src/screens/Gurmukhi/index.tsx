@@ -18,29 +18,19 @@ import {
   TouchableOpacity,
   FlatList,
   StatusBar,
+  
   Platform
 } from 'react-native';
-import { Button, colors } from 'react-native-elements';
+import { Button, Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Container, Header, Content, Body, Left, Right, Title, List, ListItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
 import { EventRegister } from 'react-native-event-listeners'
-
-import {
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
-import CustomIcon from 'utils/CustomIcon'
-import AndroidCustomIcon from 'utils/androidCustomIcon';
 import database from "utils/database";
+import LinearGradient from 'react-native-linear-gradient';
+import{IMAGESSOLID,IMAGESOUTLINE} from 'utils/imagesRequiers';
 
-import LinearGradient from 'react-native-linear-gradient'
-
-declare const global: { HermesInternal: null | {} };
 var isIos = false;
 let headerMarginTop = 0;
 let gridViewTop=0;
@@ -134,31 +124,14 @@ const Gurmukhi = () => {
           style={styles.gridView}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
-
+              
               <TouchableOpacity onPress={() => onAlphabetPress(item)}>
-                {/* Nirvair: commenting out this section to try conditional formatting of font colors
-                <Button type="clear" disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
-                  icon={
-                    isIos ?
-                      <CustomIcon name={item.name} size={32}></CustomIcon>
-                      : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
+               {
+                  item.status ?
+                        <Image style={{width: 50, height: 50}} source={IMAGESSOLID[item.name]}/>
+                        : <Image style={{width: 50, height: 50}} source={IMAGESOUTLINE[item.name]}/>
+                    
                   }
-                />
-                */}
-                <Button type="clear"  disabled={item.status}
-                  icon={
-                    isIos ?
-                      // for iOS
-                      item.status ?
-                        <CustomIcon name={item.name} size={32}></CustomIcon>
-                        : <CustomIcon name={item.name} size={32} color="#fffff8"></CustomIcon>
-                      :  // for android
-                      item.status ?
-                        <AndroidCustomIcon name={item.name} color="#0e0e0f" size={32}></AndroidCustomIcon>
-                        : <AndroidCustomIcon name={item.name} color="#fffff8" size={32}></AndroidCustomIcon>
-                  }
-                />
-
               </TouchableOpacity>
             </View>
           )}

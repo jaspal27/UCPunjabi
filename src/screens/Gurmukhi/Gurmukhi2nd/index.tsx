@@ -8,47 +8,28 @@
  * @format
  */
 
-import React, { Fragment, useCallback, useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StatusBar,
   Platform,
-
+  Image,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { Button, colors, Card } from 'react-native-elements';
+import { Button,Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Container, Header, Content, Body, Left, Right, Title, List, ListItem, CardItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
 import { EventRegister } from 'react-native-event-listeners'
 import database from "utils/database";
-import {
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
-import CustomIcon from 'utils/CustomIcon'
-import AndroidCustomIcon from 'utils/androidCustomIcon';
-
-import {
-  Player,
-  Recorder,
-  MediaStates
-} from '@react-native-community/audio-toolkit';
-
-import LinearGradient from 'react-native-linear-gradient'
+import {Player} from '@react-native-community/audio-toolkit';
+import LinearGradient from 'react-native-linear-gradient';
+import{IMAGESSOLID,IMAGESOUTLINE} from 'utils/imagesRequiers';
 
 
-declare const global: { HermesInternal: null | {} };
 var isIos = false;
 let topBarBackButton=30;
 if (Platform.OS == 'ios') {
@@ -206,19 +187,13 @@ const Gurmukhi2ndScreen = ({ route }) => {
         >
         
 
-        <View ></View>
+        <View >
+        
+        </View>
         <Text style={styles.title}>Row {rowNum}</Text>
         
         <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf:'center' }}>
-          <Button type="clear"  onPress={() => onAudioPlay(cardItem)}
-              icon={
-                isIos ?
-                  <CustomIcon name={cardItem.name} size={150}></CustomIcon>
-                  : <AndroidCustomIcon name={cardItem.name} size={150}></AndroidCustomIcon>
-              }
-            />
-          
-
+        <Image style={{width: 150, height: 150}} source={IMAGESSOLID[cardItem.name]}/>
           <TouchableOpacity  >
             <Button type="clear" onPress={() => onAudioPlay(cardItem)}
               // title={itemParams.description} this is no longer  in use
@@ -231,6 +206,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
         </Card>
         <Text/>
         <Text style={styles.actionText}>Play audio to unlock the next letter.</Text>
+        
         <FlatGrid
           itemDimension={60}
           data={letters}
@@ -239,38 +215,15 @@ const Gurmukhi2ndScreen = ({ route }) => {
             <View style={[styles.itemContainer]}>
 
               <TouchableOpacity onPress={() => onLetterPress(item)} >
-              {/* Nirvair: commenting out this section to try conditional formatting of font colors
-                <Button type="clear" disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
-                  icon={
-                    isIos ?
-                      <CustomIcon name={item.name} size={32}></CustomIcon>
-                      : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
+              {
+                  item.status ?
+                        <Image style={{width: 50, height: 50}} source={IMAGESSOLID[item.name]}/>
+                        : <Image style={{width: 50, height: 50}} source={IMAGESOUTLINE[item.name]}/>
+                    
                   }
-                />
-                */}
-
-          {/*
-          <BlurView
-          style={styles.blurry}
-          blurType= 'light'
-          blurAmount= {10}
-          reducedTransparencyFallbackColor="white"
-          />
-          */}
-                <Button type="clear" disabled={item.status}
-                  icon={
-                    isIos ?
-                      // for iOS
-                      item.status ?  // letter unlocked or not
-                        <CustomIcon name={item.name} size={40}></CustomIcon>
-                        : <CustomIcon name={item.name}  size={40} color="#fffff8"></CustomIcon>
-                        : // for android
-                      item.status ?  // letter unlocked or not
-                        <AndroidCustomIcon name={item.name} color="#0e0e0f" size={40}></AndroidCustomIcon>
-                        : <AndroidCustomIcon name={item.name} size={40} color="#fffff8"></AndroidCustomIcon>
-                  }
-                />
+               
               </TouchableOpacity>
+              
             </View>
           )}
         />
