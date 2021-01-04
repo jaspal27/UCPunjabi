@@ -39,6 +39,7 @@ import { ROUTERS } from "utils/navigation";
 import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   Player,
   Recorder,
@@ -47,24 +48,29 @@ import {
 import{SOUNDMODIFIERS} from 'utils/smImagesRequires';
 
 declare const global: { HermesInternal: null | {} };
+
 var isIos = false;
+let headerMarginTop = 0;
+let gridViewTop = 0;
 
 if (Platform.OS == 'ios') {
   isIos = true;
+  headerMarginTop = 23;
+  gridViewTop = 10;
 }
 
 const WordFormationDetails = ({ route }) => {
   let smId = 0
   let itemParams: any;
 
-  console.log('WordFormationDetails: route =', route);
+  //console.log('WordFormationDetails: route =', route);
 
   if (route.params) {
     itemParams = route.params
     smId = itemParams.id - 1
   }
 
-  console.log('WordFormationDetails: itemParams =', itemParams);
+  //console.log('WordFormationDetails: itemParams =', itemParams);
 
   let [cardItem, setCardItem] = React.useState(itemParams)
 
@@ -92,7 +98,7 @@ const WordFormationDetails = ({ route }) => {
   }
 
   const onAudioPlay = (item: any) => {
-    console.log('onAudioPlay() item.id=', item.id);
+    //console.log('onAudioPlay() item.id=', item.id);
 
     let tempItems: any = soundModifiers.slice()
     let index = item.id   //use cardItem.id as index for managing letter states 
@@ -105,7 +111,7 @@ const WordFormationDetails = ({ route }) => {
       // play audio for the given letter
       let player = new Player(item.audioId + ".mp3");
       player.play().on('ended', () => {
-        console.log('ended');
+        console.log('auido played');
       })
     } catch (e) {
       console.log(`cannot play the sound file`, e)
@@ -115,6 +121,7 @@ const WordFormationDetails = ({ route }) => {
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+
       <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
         <TouchableOpacity>
           <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
@@ -127,8 +134,9 @@ const WordFormationDetails = ({ route }) => {
             }>
           </Button>
         </TouchableOpacity>
-
-        <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+        {/* placeholder for adding a title if needed
+        <Text style={{ fontSize: 30, marginTop: headerMarginTop, marginLeft: 60, color: '#1D2359', textAlign: 'center' }}></Text>
+        */}
         {/*
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
@@ -147,10 +155,19 @@ const WordFormationDetails = ({ route }) => {
         backgroundColor: "#2f85a4",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 250
+        paddingBottom: 350
       }}>
 
-        <View ></View>
+      <View></View>
+
+      {/* <LinearGradient
+          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
+          style={styles.linearGradient}
+      > */}
+
+        <Text style={{ fontSize: 32}}>{cardItem.pname}</Text>
+        <Text style={{ fontSize: 22}}>{cardItem.phrase}</Text>
+
         <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
           <TouchableOpacity>
             {/*
@@ -162,7 +179,8 @@ const WordFormationDetails = ({ route }) => {
               }
             />
             */}
-            <Image onPress={() => onAudioPlay(cardItem)} style={{width: 150, height: 150}} source={SOUNDMODIFIERS[cardItem.name]}/>
+            <Image style={{width: 150, height: 150}} source={SOUNDMODIFIERS[cardItem.name]}/>
+            
           </TouchableOpacity>
 
           <TouchableOpacity  >
@@ -175,7 +193,9 @@ const WordFormationDetails = ({ route }) => {
             />
           </TouchableOpacity>
         </Card>
+        <Text style={styles.actionText}>Press speaker icon to listen to the audio.</Text>
 
+        {/*</LinearGradient> */}
       </View>
     </>
   );
@@ -198,6 +218,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     height: 100,
+  },
+  linearGradient: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -245,6 +269,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'black',
     textAlign: 'center',
+  },
+  actionText: {
+    fontSize: 18,
+    color: 'black',
+    textAlign: 'center',
+    paddingTop: 20,
+    paddingBottom: 20
   },
 });
 

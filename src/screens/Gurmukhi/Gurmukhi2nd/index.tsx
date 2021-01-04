@@ -88,6 +88,9 @@ const Gurmukhi2ndScreen = ({ route }) => {
     if (index == 41) {
       index = 40
     }
+    //else if (index  == 40) {
+    //  tempItems = lettersData.slice(index-5, index+1)
+    //}
     else if ((index % 5) == 0) {
       // We are at the end of a row and next row needs to be loaded
       tempItems = lettersData.slice(index, index + 5)
@@ -155,9 +158,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
           style={styles.linearGradient}
         >
 
-          <View >
-
-          </View>
+          <View></View>
           <Text style={styles.title}>Row {cardItem.rowNum}</Text>
 
           <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
@@ -174,7 +175,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
             </TouchableOpacity>
           </Card>
           <Text />
-          <Text style={styles.actionText}>Play audio to unlock the next letter.</Text>
+          <Text style={styles.actionText}>Press speaker icon unlock the next letter.</Text>
 
           <FlatGrid
             itemDimension={60}

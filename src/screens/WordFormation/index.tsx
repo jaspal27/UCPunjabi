@@ -47,7 +47,7 @@ const WordFormation = () => {
   let soundModifiersData: [] = database.getSoundModifiersData()
   let [soundModifiers, setSoundModifiers] = React.useState(soundModifiersData)
 
-  console.log('WordFormation()')
+  //console.log('WordFormation()')
   const { navigate } = useNavigation();
 
   const onSkipPress = useCallback(() => {
@@ -68,7 +68,8 @@ const WordFormation = () => {
       database.setLetterData(tempItems)
 
     })
-    console.log(item)
+
+    //console.log('onWordPress() item=', item)
     navigate(ROUTERS.WordFormationDetails, item);
   }
 
@@ -107,22 +108,33 @@ const WordFormation = () => {
         backgroundColor: "#2f85a4",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 20
+        paddingBottom: 10
       }}>
+        {/*
+        <LinearGradient
+          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
+          style={styles.linearGradient}
+        >
+        */}
         <View></View>
-
+        <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 4}}> Forming words with or without vowels.</Text>
+        <Text></Text>
         <FlatList
           data={soundModifiers}
           style={styles.gridView}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
-              <View style={[styles.border]}>
+              <View style={[styles.button]}>
               <View style={{justifyContent: 'center'}}>
               <TouchableOpacity onPress={() => onWordPress(item)}>
               {
-                <Text style={{fontSize:24}}> 
-                <Image onPress={() => onWordPress(item)} style={{width: 50, height: 50}} source={SOUNDMODIFIERS[item.name]}/>
-                {item.name} 
+                <Text style={{fontSize:18, textAlign: 'center', marginBottom: 0}}> 
+                  {item.pname}
+                  {
+                    item.id > 1?
+                      <Image onPress={() => onWordPress(item)} style={{width: 40, height: 40}} source={SOUNDMODIFIERS[item.name]}/>
+                      : <Image></Image>
+                  }
                 </Text> 
               }
               </TouchableOpacity>
@@ -146,6 +158,7 @@ const WordFormation = () => {
             </View>
           )}
         />
+        {/* </LinearGradient> */}
       </View>
     </>
   );
@@ -163,18 +176,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 1,
   },
+  linearGradient: {
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
     padding: 10,
-    height: 70,
+    height: 68,
   },
-  border :{
+  button :{
     borderColor: 'black',
     borderStyle: 'solid',
     borderWidth: 1,
-    height: 55,
-    width: 200
+    height: 50,
+    width: 240,
+    padding: 6,
+    margin: 5
   },
   buttonContainer: {
     flexDirection: 'row',
