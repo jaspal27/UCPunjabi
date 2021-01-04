@@ -33,7 +33,7 @@ export const IMAGESSOLID = {
   letter32: require('../../assets/solid/ls32.png'), 
   letter33: require('../../assets/solid/ls33.png'), 
   letter34: require('../../assets/solid/ls34.png'), 
-  letter25: require('../../assets/solid/ls35.png'), 
+  letter35: require('../../assets/solid/ls35.png'), 
   letter36: require('../../assets/solid/ls36.png'), 
   letter37: require('../../assets/solid/ls37.png'), 
   letter38: require('../../assets/solid/ls38.png'),

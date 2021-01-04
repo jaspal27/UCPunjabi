@@ -22,7 +22,7 @@ import {
 
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { Button, colors, Card } from 'react-native-elements';
+import { Button, Image, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Container, Header, Content, Body, Left, Right, Title, List, ListItem, CardItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
@@ -44,6 +44,7 @@ import {
   Recorder,
   MediaStates
 } from '@react-native-community/audio-toolkit';
+import{SOUNDMODIFIERS} from 'utils/smImagesRequires';
 
 declare const global: { HermesInternal: null | {} };
 var isIos = false;
@@ -51,32 +52,31 @@ var isIos = false;
 if (Platform.OS == 'ios') {
   isIos = true;
 }
-declare const NumLetters = 41;  // This is the number of letters in the script
 
-const WordFormationDetails = ({route}) => {
-  let letterId = 0
-  let itemParams :any;
+const WordFormationDetails = ({ route }) => {
+  let smId = 0
+  let itemParams: any;
+
+  console.log('WordFormationDetails: route =', route);
+
   if (route.params) {
     itemParams = route.params
-    letterId = itemParams.id - 1
+    smId = itemParams.id - 1
   }
-  let [cardItem, setCardItem] = React.useState(itemParams)
-  // set row number;  it  is used in screen title in View
-  let rowNum = itemParams.rowNum
 
-  // read letters data from local cache 
-  let lettersData: [] = database.getLettersData()
+  console.log('WordFormationDetails: itemParams =', itemParams);
+
+  let [cardItem, setCardItem] = React.useState(itemParams)
+
+  // read data from local cache 
+  let soundModifiersData: [] = database.getSoundModifiersData()
 
   // figure out the offset for displaying current letter's entire row
-  let offset = Math.floor(letterId / 5) * 5
-  let tempArray = lettersData.slice(offset, offset + 5)
-  let [letters, setLetters] = React.useState(tempArray)
+  //let offset = Math.floor(smId / 5) * 5
+  let tempArray = soundModifiersData.slice()
+  let [soundModifiers, setSoundModifiers] = React.useState(tempArray)
 
   const { navigate } = useNavigation();
-
-  const onNextScreen = useCallback(() => {
-    navigate(ROUTERS.Gurmukhi);
-  }, []);
 
   const onSkipPress = useCallback(() => {
     navigate(ROUTERS.WordFormation);
@@ -84,26 +84,20 @@ const WordFormationDetails = ({route}) => {
 
   const onPress = useCallback(() => {
     //navigate(ROUTERS.Details);
-    console.log('clciked me');
+    console.log('clicked me');
   }, []);
+
   const onAlphabetPress = (item: any) => {
     setCardItem(item);
   }
-  const onVolumePress = (item:any) =>{
-    console.log(item.id);
-    console.log('test here')
-    let tempItems: any = letters.slice()
+
+  const onAudioPlay = (item: any) => {
+    console.log('onAudioPlay() item.id=', item.id);
+
+    let tempItems: any = soundModifiers.slice()
     let index = item.id   //use cardItem.id as index for managing letter states 
 
-    // Reset index if it is the last letter in the script
-    if (index == 41) {
-      index = 40
-    }
-
-    // Make the next letter active
-    lettersData[index].['status'] = true
-
-    setLetters(tempItems)
+    setSoundModifiers(tempItems)
 
     EventRegister.emit('wordFormationEvent', index)
 
@@ -116,13 +110,7 @@ const WordFormationDetails = ({route}) => {
     } catch (e) {
       console.log(`cannot play the sound file`, e)
     }
-    //SoundPlayer.playUrl('audio/letters/l01.mp3')
-    // audio.playAudioLetters('l01')
   }
-  const onAudioPlay = useCallback(() => {
-    
-  }, [])
-
 
   return (
     <>
@@ -141,6 +129,7 @@ const WordFormationDetails = ({route}) => {
         </TouchableOpacity>
 
         <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+        {/*
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
             <Icon
@@ -150,6 +139,7 @@ const WordFormationDetails = ({route}) => {
             />
           }>
         </Button>
+        */}
       </View >
 
       <View style={{
@@ -161,30 +151,31 @@ const WordFormationDetails = ({route}) => {
       }}>
 
         <View ></View>
-
-        <Text style={styles.title}>Row {rowNum}</Text>
-        <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, }}>
+        <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
           <TouchableOpacity>
+            {/*
             <Button type="clear"
               icon={
                 isIos ?
-                  <CustomIcon name={cardItem.name} size={150}></CustomIcon>
-                  : <AndroidCustomIcon name={cardItem.name} size={150}></AndroidCustomIcon>
+                  <CustomIcon name={cardItem.name} size={120}></CustomIcon>
+                  : <AndroidCustomIcon name={cardItem.name} size={120}></AndroidCustomIcon>
               }
             />
+            */}
+            <Image onPress={() => onAudioPlay(cardItem)} style={{width: 150, height: 150}} source={SOUNDMODIFIERS[cardItem.name]}/>
           </TouchableOpacity>
 
           <TouchableOpacity  >
-            <Button type="clear" onPress={() => onVolumePress(cardItem)} 
+            <Button type="clear" onPress={() => onAudioPlay(cardItem)}
               // title={itemParams.description} this is no longer  in use
               icon={
-                <Icon name="volume-medium-outline" style={{ marginLeft: 20 }} size={20}></Icon>
+                <Icon name="volume-medium-outline"  size={32}></Icon>
               }
               iconRight
             />
           </TouchableOpacity>
         </Card>
-        
+
       </View>
     </>
   );

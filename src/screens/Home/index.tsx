@@ -35,6 +35,7 @@ import database from "utils/database"
 const Home = () => {
   // check if the data exist in the local storage. if not then save the data to the database
   database.fetchLettersData(Platform.OS)
+  database.fetchSoundModifiersData(Platform.OS)
 
   const { navigate } = useNavigation();
 
@@ -58,6 +59,8 @@ const Home = () => {
     text3: 'Numbers',
     text4: 'Modules Vocabulary',
     text5: 'Settings',
+    text6: 'A mobile companion for Punjabi learners.',
+    text7: 'UNIVERSITY OF CALIFORNIA',
     backgroundColor: '#2f85a4',
   }
   return (
@@ -69,7 +72,7 @@ const Home = () => {
         backgroundColor: item.backgroundColor,
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 250
+        paddingBottom: 150
       }}>
 
         <View style={styles.buttonContainer}>
@@ -105,10 +108,9 @@ const Home = () => {
             }
             titleStyle= {[styles.buttonIconText]}  title={item.text5} type="clear"/>
           */}
+          <Text style={styles.msg}>{item.text6}</Text>
+          <Text style={styles.brand}>{item.text7}</Text>
       </View>
-
-
-
     </>
   );
 };
@@ -149,14 +151,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1
   },
-
   slide: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'blue',
   },
-
   text: {
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
@@ -166,6 +166,17 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
   },
+  msg: {
+    fontSize: 16,
+    color: 'black',
+    textAlign: 'center',
+  },
+  brand: {
+    paddingTop: 100,
+    fontSize: 16,
+    color: 'rgba(251, 205, 32, 0.8)',
+    textAlign: 'center',
+  }
 });
 
 export default Home;

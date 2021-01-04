@@ -20,7 +20,7 @@ import {
   StatusBar,
   Platform
 } from 'react-native';
-import { Button, colors } from 'react-native-elements';
+import { Button, Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners'
 import { useNavigation } from "@react-navigation/native";
@@ -29,23 +29,26 @@ import CustomIcon from 'utils/CustomIcon'
 import AndroidCustomIcon from 'utils/androidCustomIcon';
 import database from "utils/database";
 import { ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
+import LinearGradient from 'react-native-linear-gradient'
+import{SOUNDMODIFIERS} from 'utils/smImagesRequires';
 
 var isIos = false;
+let headerMarginTop = 0;
+let gridViewTop = 0;
+
 if (Platform.OS == 'ios') {
   isIos = true;
+  headerMarginTop = 23;
+  gridViewTop = 10;
 }
 
 const WordFormation = () => {
   let listner: any;
+  let soundModifiersData: [] = database.getSoundModifiersData()
+  let [soundModifiers, setSoundModifiers] = React.useState(soundModifiersData)
 
-  let lettersData: [] = database.getLettersData()
-  let [letters, setLetters] = React.useState(lettersData)
-
+  console.log('WordFormation()')
   const { navigate } = useNavigation();
-
-  const onNextScreen = useCallback(() => {
-    navigate(ROUTERS.Gurmukhi);
-  }, []);
 
   const onSkipPress = useCallback(() => {
     if (listner) {
@@ -57,11 +60,11 @@ const WordFormation = () => {
 
   const onWordPress = (item: any) => {
     listner = EventRegister.addEventListener('myCustomEvent', (data: number) => {
-      console.log(data);
+      console.log('WordFormation() data =', data);
 
-      let tempItems: any = letters.slice()
+      let tempItems: any = soundModifiers.slice()
       tempItems[data].['status'] = true
-      setLetters(tempItems)
+      setSoundModifiers(tempItems)
       database.setLetterData(tempItems)
 
     })
@@ -85,7 +88,7 @@ const WordFormation = () => {
             }>
           </Button>
         </TouchableOpacity>
-        <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+        <Text style={{ fontSize: 30, marginTop: headerMarginTop, marginLeft: 60, color: '#1D2359', textAlign: 'center' }}>Word Formation</Text>
         {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
@@ -107,12 +110,25 @@ const WordFormation = () => {
         paddingBottom: 20
       }}>
         <View></View>
-        <Text style={styles.title}>Word Formation</Text>
+
         <FlatList
-          data={letters}
+          data={soundModifiers}
           style={styles.gridView}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer]}>
+              <View style={[styles.border]}>
+              <View style={{justifyContent: 'center'}}>
+              <TouchableOpacity onPress={() => onWordPress(item)}>
+              {
+                <Text style={{fontSize:24}}> 
+                <Image onPress={() => onWordPress(item)} style={{width: 50, height: 50}} source={SOUNDMODIFIERS[item.name]}/>
+                {item.name} 
+                </Text> 
+              }
+              </TouchableOpacity>
+              </View>
+              </View>
+              {/*
               <Button
                 type="outline"
                 titleStyle={{ color: colors.grey5 }}
@@ -126,7 +142,7 @@ const WordFormation = () => {
                 }
                 title={item.name}
               />
-
+              */}
             </View>
           )}
         />
@@ -152,6 +168,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     height: 70,
+  },
+  border :{
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    height: 55,
+    width: 200
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -185,14 +208,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1
   },
-
   slide: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'blue',
   },
-
   text: {
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
@@ -202,7 +223,6 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
   },
-
 });
 
 export default WordFormation;
