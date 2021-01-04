@@ -16,14 +16,14 @@ import { lettersAndroidData} from "utils/android/letters";
                 database.lettersObject = JSON.parse(value)
               }else{
                 
-                if(platform === 'ios'){
+                //if(platform === 'ios'){
                   console.log('os name:' +platform)
                   AsyncStorage.setItem('letters',JSON.stringify(lettersData))
-                }else{
+               /* }else{
                   console.log('os name:' +platform)
                   AsyncStorage.setItem('letters',JSON.stringify(lettersAndroidData))
                   lettersJson = lettersAndroidData
-                }
+                }*/
                 
                 database.lettersObject = lettersJson
                 console.log('no data found')
