@@ -107,7 +107,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
       // play audio for the given letter
       let player = new Player(item.audioId + ".mp3");
       player.play().on('ended', () => {
-        console.log('audio played');
+        //console.log('audio played');
       })
     } catch (e) {
       console.log(`unable to play audio`, e)
@@ -175,7 +175,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
             </TouchableOpacity>
           </Card>
           <Text />
-          <Text style={styles.actionText}>Press speaker icon unlock the next letter.</Text>
+          <Text style={styles.actionText}>Press the speaker icon to unlock the next letter.</Text>
 
           <FlatGrid
             itemDimension={60}

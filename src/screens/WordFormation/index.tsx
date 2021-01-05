@@ -131,7 +131,7 @@ const WordFormation = () => {
                 <Text style={{fontSize:18, textAlign: 'center', marginBottom: 0}}> 
                   {item.pname}
                   {
-                    item.id > 1?
+                    item.id > 1?  // this check is added to handle no icon for mukta case
                       <Image onPress={() => onWordPress(item)} style={{width: 40, height: 40}} source={SOUNDMODIFIERS[item.name]}/>
                       : <Image></Image>
                   }

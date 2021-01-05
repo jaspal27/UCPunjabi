@@ -111,7 +111,7 @@ const WordFormationDetails = ({ route }) => {
       // play audio for the given letter
       let player = new Player(item.audioId + ".mp3");
       player.play().on('ended', () => {
-        console.log('auido played');
+        //console.log('auido played');
       })
     } catch (e) {
       console.log(`cannot play the sound file`, e)
@@ -166,7 +166,8 @@ const WordFormationDetails = ({ route }) => {
       > */}
 
         <Text style={{ fontSize: 32}}>{cardItem.pname}</Text>
-        <Text style={{ fontSize: 22}}>{cardItem.phrase}</Text>
+        <Text></Text>
+        <Text style={{ fontSize: 20}}>{cardItem.sound}{cardItem.phrase}</Text>
 
         <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
           <TouchableOpacity>
@@ -193,7 +194,7 @@ const WordFormationDetails = ({ route }) => {
             />
           </TouchableOpacity>
         </Card>
-        <Text style={styles.actionText}>Press speaker icon to listen to the audio.</Text>
+        <Text style={styles.actionText}>Press the speaker icon to listen to the audio.</Text>
 
         {/*</LinearGradient> */}
       </View>

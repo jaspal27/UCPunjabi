@@ -59,7 +59,7 @@ const Home = () => {
     text3: 'Numbers',
     text4: 'Modules Vocabulary',
     text5: 'Settings',
-    text6: 'A mobile companion for Punjabi learners.',
+    text6: 'A mobile companion for Punjabi language learners.',
     text7: 'UNIVERSITY OF CALIFORNIA',
     backgroundColor: '#2f85a4',
   }
@@ -90,7 +90,10 @@ const Home = () => {
             </TouchableOpacity>
           */}
         </View>
+        
         <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.subtitle}>{item.text6}</Text>
+        <Text></Text>
         <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text1} type="outline" onPress={onNextScreen} />
         <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text2} type="outline" onPress={onWordFormation} />
         {/*
@@ -108,7 +111,7 @@ const Home = () => {
             }
             titleStyle= {[styles.buttonIconText]}  title={item.text5} type="clear"/>
           */}
-          <Text style={styles.msg}>{item.text6}</Text>
+          
           <Text style={styles.brand}>{item.text7}</Text>
       </View>
     </>
@@ -166,8 +169,8 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
   },
-  msg: {
-    fontSize: 16,
+  subtitle: {
+    fontSize: 24,
     color: 'black',
     textAlign: 'center',
   },

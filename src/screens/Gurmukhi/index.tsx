@@ -63,7 +63,7 @@ const Gurmukhi = () => {
 
   const onAlphabetPress = (item: any) => {
     listner = EventRegister.addEventListener('myCustomEvent', (data: number) => {
-      console.log(data);
+      // console.log(data);
 
       let tempItems: any = letters.slice()
       tempItems[data].['status'] = true
@@ -72,7 +72,7 @@ const Gurmukhi = () => {
 
     })
 
-    console.log(item)
+    // console.log(item)
     if(item.status){
       navigate(ROUTERS.Gurmukhi2ndScreen, item);
     }
@@ -197,24 +197,22 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1
   },
-
   slide: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'blue',
   },
-
   text: {
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
   },
   hint: {
-    fontSize: 20,
+    fontSize: 18,
     color: 'black',
-    marginTop: 8,
+    marginTop: 12,
     textAlign: 'center',
-    width: 350
+    width: 380
   },
 });
 
