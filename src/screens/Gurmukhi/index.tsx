@@ -18,7 +18,7 @@ import {
   TouchableOpacity,
   FlatList,
   StatusBar,
-  
+
   Platform
 } from 'react-native';
 import { Button, Image } from 'react-native-elements';
@@ -29,11 +29,11 @@ import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
 import database from "utils/database";
 import LinearGradient from 'react-native-linear-gradient';
-import{IMAGESSOLID,IMAGESOUTLINE} from 'utils/imagesRequiers';
+import { IMAGESSOLID, IMAGESOUTLINE } from 'utils/imagesRequiers';
 
 var isIos = false;
 let headerMarginTop = 0;
-let gridViewTop=0;
+let gridViewTop = 0;
 
 if (Platform.OS == 'ios') {
   isIos = true;
@@ -71,14 +71,17 @@ const Gurmukhi = () => {
       database.setLetterData(tempItems)
 
     })
+
     console.log(item)
-    navigate(ROUTERS.Gurmukhi2ndScreen, item);
+    if(item.status){
+      navigate(ROUTERS.Gurmukhi2ndScreen, item);
+    }
   }
 
   return (
     <>
-      
-      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
+
+      <View style={{ flexDirection: 'row', backgroundColor: "#009DC2", paddingTop: 30 }}>
         <TouchableOpacity   >
           <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
             icon={
@@ -90,7 +93,7 @@ const Gurmukhi = () => {
             }>
           </Button>
         </TouchableOpacity>
-        
+
         <Text style={{ fontSize: 30, marginTop: headerMarginTop, marginLeft: 96, color: '#1D2359', textAlign: 'center' }}>Gurmukhi</Text>
         {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
@@ -112,30 +115,28 @@ const Gurmukhi = () => {
       }}>
 
         <LinearGradient
-          colors={['#009DC2', '#FFFFFF' ]}
+          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
           style={styles.linearGradient}
         >
 
-        <View></View>
-        <Text style={styles.hint}>Start with the first letter and unlock the rest.</Text>
-        <FlatGrid
-          itemDimension={60}
-          data={letters}
-          style={styles.gridView}
-          renderItem={({ item }) => (
-            <View style={[styles.itemContainer]}>
-              
-              <TouchableOpacity onPress={() => onAlphabetPress(item)}>
-               {
-                  item.status ?
-                        <Image style={{width: 50, height: 50}} source={IMAGESSOLID[item.name]}/>
-                        : <Image style={{width: 50, height: 50}} source={IMAGESOUTLINE[item.name]}/>
-                    
+          <View></View>
+          <Text style={styles.hint}>Start with the first letter and unlock the rest.</Text>
+          <FlatGrid
+            itemDimension={60}
+            data={letters}
+            style={styles.gridView}
+            renderItem={({ item }) => (
+              <View style={[styles.itemContainer]}>
+                <TouchableOpacity onPress={() => onAlphabetPress(item)}>
+                  {
+                    item.status ?
+                      <Image style={{ width: 50, height: 50 }} source={IMAGESSOLID[item.name]} />
+                      : <Image style={{ width: 50, height: 50 }} source={IMAGESOUTLINE[item.name]} />
                   }
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
         </LinearGradient>
       </View>
     </>
@@ -160,8 +161,8 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 68,
   },
-  linearGradient:{
-    alignItems : 'center',
+  linearGradient: {
+    alignItems: 'center',
     justifyContent: 'center'
   },
   buttonContainer: {

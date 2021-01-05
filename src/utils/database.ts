@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {lettersData} from "utils/letters";
-import { lettersAndroidData} from "utils/android/letters";
+import { soundModifiersData } from "utils/soundModifiers";
 
 
   export default class database{
@@ -33,6 +33,44 @@ import { lettersAndroidData} from "utils/android/letters";
             }
           
       }
+      static async fetchSoundModifiersData(platform: any) {
+
+        try {
+          const value = await AsyncStorage.getItem('soundModifiers');
+          let soundModifiersJson = soundModifiersData
+    
+          if (value !== null) {
+            // We have data!!
+            console.log(value);
+            database.soundModifiersObject = JSON.parse(value)
+          } else {
+    
+            if (platform === 'ios') {
+              console.log('os name:' + platform)
+              AsyncStorage.setItem('soundModifiers', JSON.stringify(soundModifiersData))
+            } 
+            /*
+            else {
+              console.log('os name:' + platform)
+              AsyncStorage.setItem('soundModifiers', JSON.stringify(lettersAndroidData))
+              lettersJson = lettersAndroidData
+            }
+            */
+            database.soundModifiersObject = soundModifiersJson
+            console.log('no sound modifiers data found')
+          }
+        } catch (error) {
+          // Error retrieving data
+        }
+      }
+      static getSoundModifiersData() {
+        return database.soundModifiersObject
+      }
+    
+      static setSoundModifiersData(soundModifiersData: []) {
+        AsyncStorage.setItem('soundModifiers', JSON.stringify(soundModifiersData))
+      }
+    
       static getLettersData(){
         return database.lettersObject
       }
@@ -50,5 +88,3 @@ import { lettersAndroidData} from "utils/android/letters";
         }
       }
   }
-  
-
