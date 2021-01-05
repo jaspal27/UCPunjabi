@@ -12,7 +12,7 @@ import { soundModifiersData } from "utils/soundModifiers";
               let lettersJson = lettersData
               if (value !== null) {
                 // We have data!!
-                console.log(value);
+                //console.log(value);
                 database.lettersObject = JSON.parse(value)
               }else{
                 
@@ -41,7 +41,7 @@ import { soundModifiersData } from "utils/soundModifiers";
     
           if (value !== null) {
             // We have data!!
-            console.log(value);
+            //console.log(value);
             database.soundModifiersObject = JSON.parse(value)
           } else {
     
