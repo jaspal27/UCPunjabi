@@ -29,7 +29,7 @@ import { Player } from '@react-native-community/audio-toolkit';
 import LinearGradient from 'react-native-linear-gradient';
 import { IMAGESSOLID, IMAGESOUTLINE } from 'utils/imagesRequiers';
 
-
+const text1 = "Tap audio icon to open the next letter."
 var isIos = false;
 let topBarBackButton = 30;
 if (Platform.OS == 'ios') {
@@ -175,7 +175,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
             </TouchableOpacity>
           </Card>
           <Text />
-          <Text style={styles.actionText}>Press the speaker icon to unlock the next letter.</Text>
+          <Text style={styles.actionText}>{text1}</Text>
 
           <FlatGrid
             itemDimension={60}

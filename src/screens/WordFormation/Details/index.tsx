@@ -49,6 +49,8 @@ import{SOUNDMODIFIERS} from 'utils/smImagesRequires';
 
 declare const global: { HermesInternal: null | {} };
 
+const text1 = "Tap audio icon to listen."
+
 var isIos = false;
 let headerMarginTop = 0;
 let gridViewTop = 0;
@@ -194,7 +196,7 @@ const WordFormationDetails = ({ route }) => {
             />
           </TouchableOpacity>
         </Card>
-        <Text style={styles.actionText}>Press the speaker icon to listen to the audio.</Text>
+        <Text style={styles.actionText}>{text1}</Text>
 
         {/*</LinearGradient> */}
       </View>

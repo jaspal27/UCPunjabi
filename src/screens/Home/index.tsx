@@ -53,13 +53,13 @@ const Home = () => {
 
   const item =
   {
-    title: 'Welcome to UC Punjabi',
+    title: 'Welcome to UC ਪੰਜਾਬੀ',
     text1: 'Gurmukhi Script',
     text2: 'Word Formation',
     text3: 'Numbers',
     text4: 'Modules Vocabulary',
     text5: 'Settings',
-    text6: 'A mobile companion for Punjabi language learners.',
+    text6: 'A mobile companion for the First Year of Punjabi.',
     text7: 'UNIVERSITY OF CALIFORNIA',
     backgroundColor: '#2f85a4',
   }
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonText: {
-    width: 300,
+    width: 280,
     color: 'black',
     fontWeight: '400',
     textAlign: 'center',
@@ -151,8 +151,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonOutline: {
-    borderColor: 'black',
-    borderWidth: 1
+    borderColor: '#A8A8A8',
+    borderWidth: 1,
+    borderRadius: 10,
   },
   slide: {
     flex: 1,
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 24,
+    fontSize: 20,
     color: 'black',
     textAlign: 'center',
   },
