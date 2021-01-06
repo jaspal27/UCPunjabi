@@ -31,6 +31,7 @@ import database from "utils/database";
 import LinearGradient from 'react-native-linear-gradient';
 import { IMAGESSOLID, IMAGESOUTLINE } from 'utils/imagesRequiers';
 
+const text1 = "Start with the first letter and open the rest."
 var isIos = false;
 let headerMarginTop = 0;
 let gridViewTop = 0;
@@ -120,7 +121,7 @@ const Gurmukhi = () => {
         >
 
           <View></View>
-          <Text style={styles.hint}>Start with the first letter and unlock the rest.</Text>
+          <Text style={styles.hint}>{text1}</Text>
           <FlatGrid
             itemDimension={60}
             data={letters}
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     borderRadius: 5,
     padding: 10,
-    height: 68,
+    height: 62,
   },
   linearGradient: {
     alignItems: 'center',

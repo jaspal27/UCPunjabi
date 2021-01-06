@@ -20,7 +20,7 @@ import {
   StatusBar,
   Platform
 } from 'react-native';
-import { Button, Image } from 'react-native-elements';
+import { Button, Image, colors } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners'
 import { useNavigation } from "@react-navigation/native";
@@ -108,7 +108,7 @@ const WordFormation = () => {
         backgroundColor: "#2f85a4",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 10
+        paddingBottom: 0
       }}>
         {/*
         <LinearGradient
@@ -117,44 +117,31 @@ const WordFormation = () => {
         >
         */}
         <View></View>
-        <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 4}}> Forming words with or without vowels.</Text>
+        <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 4}}> Making words with vowels</Text>
         <Text></Text>
         <FlatList
           data={soundModifiers}
           style={styles.gridView}
-          renderItem={({ item }) => (
+          renderItem={ ({ item }) => (
             <View style={[styles.itemContainer]}>
               <View style={[styles.button]}>
-              <View style={{justifyContent: 'center'}}>
-              <TouchableOpacity onPress={() => onWordPress(item)}>
-              {
-                <Text style={{fontSize:18, textAlign: 'center', marginBottom: 0}}> 
-                  {item.pname}
+                <TouchableOpacity onPress={() => onWordPress(item)}>
                   {
-                    item.id > 1?  // this check is added to handle no icon for mukta case
-                      <Image onPress={() => onWordPress(item)} style={{width: 40, height: 40}} source={SOUNDMODIFIERS[item.name]}/>
-                      : <Image></Image>
+                    <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 0 }}>
+                      {item.pname} {item.symbol}
+                    </Text>
                   }
-                </Text> 
-              }
-              </TouchableOpacity>
-              </View>
-              </View>
+                </TouchableOpacity>
+              </View>            
               {/*
               <Button
                 type="outline"
                 titleStyle={{ color: colors.grey5 }}
                 buttonStyle={[{ borderColor: colors.grey0 }, { width: '100%' }]}
                 onPress={() => onWordPress(item)}
-
-                icon={
-                  isIos ?
-                    <CustomIcon style={{ marginRight: 40, marginLeft: -80 }} name={item.name} size={32}></CustomIcon>
-                    : <AndroidCustomIcon name={item.name} size={32}></AndroidCustomIcon>
-                }
-                title={item.name}
+                title={item.pname}{item.symbol}
               />
-              */}
+          */}
             </View>
           )}
         />
@@ -167,13 +154,13 @@ const WordFormation = () => {
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20
   },
   gridView: {
-    marginTop: 10,
+    marginTop: 0,
     flex: 1,
   },
   linearGradient: {
@@ -184,16 +171,17 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
-    padding: 10,
-    height: 68,
+    padding: 5,
+    height: 62,
   },
   button :{
-    borderColor: 'black',
+    borderColor: '#A8A8A8',
     borderStyle: 'solid',
     borderWidth: 1,
-    height: 50,
-    width: 240,
-    padding: 6,
+    borderRadius: 10,
+    height: 40,
+    width: 200,
+    padding: 4,
     margin: 5
   },
   buttonContainer: {
