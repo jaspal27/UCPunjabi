@@ -5,6 +5,7 @@ import { soundModifiersData } from "utils/soundModifiers";
 
   export default class database{
     static lettersObject:any = [];
+    static soundModifiersObject:any =[];
       static async fetchLettersData(platform:any) {
         
             try {

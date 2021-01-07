@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback,useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -38,6 +38,7 @@ if (Platform.OS == 'ios') {
 }
 
 const Gurmukhi2ndScreen = ({ route }) => {
+  
   let letterId = 0
   let itemParams: any;
 
@@ -55,28 +56,30 @@ const Gurmukhi2ndScreen = ({ route }) => {
   let offset = Math.floor(letterId / 5) * 5
   let tempArray = lettersData.slice(offset, offset + 5)
   let [letters, setLetters] = React.useState(tempArray)
-
+  let selectedItem:any =0;
   const { navigate } = useNavigation();
 
   const onPrevScreen = useCallback(() => {
     navigate(ROUTERS.Gurmukhi);
   }, []);
 
-  const onNextLetterPress = useCallback((item: any) => {
-
-    //console.log('onNextLetterPress item.id=', item.id)
-    let tempItems: any = letters.slice()
-    //console.log('onNextLetterPress tempItems=', tempItems)
-    let index = item.id   //use item.id as index for managing letter states
-  }, []);
-
+  
+  useEffect(() => {
+   // myFunction();
+    return () => {
+      setCardItem({}); // This worked for me
+    };
+}, []);
+const myFunction = () => {
+  //setCardItem(tempArray)
+}
   const onLetterPress = (item: any) => {
     //console.log('onLetterPress item.id=', item.id)
-    if (item.status){
-      setCardItem(item)
+    if(item.status){
+      selectedItem = item
+    setCardItem(item)
     }
-
-    //setCardItem(item);
+    
   }
 
   // the next line was 'const onAudioPlay = useCallback(() =>' before
