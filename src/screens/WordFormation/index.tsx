@@ -59,20 +59,7 @@ const WordFormation = () => {
   }, []);
 
   const onWordPress = (item: any) => {
-   /* listner = EventRegister.addEventListener('myCustomEvent', (data: number) => {
-      console.log('WordFormation() data =', data);
-      let tempItems:any = [] = soundModifiers.slice()
-      if(tempItems[data]){
-        
-      }
-      tempItems[data].['status'] = true
-      setSoundModifiers(tempItems)
-      database.setLetterData(tempItems)
-
-    })*/
-
-    //console.log('onWordPress() item=', item)
-    navigate(ROUTERS.WordFormationDetails, item);
+   navigate(ROUTERS.WordFormationDetails, item);
   }
 
   return (

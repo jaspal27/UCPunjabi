@@ -34,7 +34,7 @@ var isIos = false;
 let topBarBackButton = 30;
 if (Platform.OS == 'ios') {
   isIos = true;
-  topBarBackButton = 10;
+  topBarBackButton = 30;
 }
 
 const Gurmukhi2ndScreen = ({ route }) => {

@@ -2,7 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@color/splashscreen_bg"/>
+        android:drawable="@mipmap/screen"
+        android:gravity="fill"
+      />
+
 
     <item
         android:width="300dp"
