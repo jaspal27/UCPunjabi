@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {lettersData} from "utils/letters";
 import { soundModifiersData } from "utils/soundModifiers";
-
+import {vocabularyData} from "utils/vocabulary";
 
   export default class database{
     static lettersObject:any = [];
     static soundModifiersObject:any =[];
+    static vocabularyObject:any =[];
+
       static async fetchLettersData(platform:any) {
-        
             try {
               const value = await AsyncStorage.getItem('letters');
               let lettersJson = lettersData
@@ -27,15 +28,15 @@ import { soundModifiersData } from "utils/soundModifiers";
                 }*/
                 
                 database.lettersObject = lettersJson
-                console.log('no data found')
+                console.log('no letters data found')
               }
             } catch (error) {
               // Error retrieving data
+              console.log('letters data retrieval error ', error )
             }
-          
       }
-      static async fetchSoundModifiersData(platform: any) {
 
+      static async fetchSoundModifiersData(platform: any) {
         try {
           const value = await AsyncStorage.getItem('soundModifiers');
           let soundModifiersJson = soundModifiersData
@@ -62,8 +63,35 @@ import { soundModifiersData } from "utils/soundModifiers";
           }
         } catch (error) {
           // Error retrieving data
+          console.log('sound modifiers data retrieval error ', error )
         }
       }
+
+      static async fetchVocabularyData(platform: any) {
+        try {
+          const value = await AsyncStorage.getItem('vocabulary');
+          let vocabularyJson = vocabularyData
+    
+          if (value !== null) {
+            // We have data!!
+            //console.log(value);
+            database.vocabularyObject = JSON.parse(value)
+          } else {
+    
+            if (platform === 'ios') {
+              console.log('os name:' + platform)
+              AsyncStorage.setItem('vocabulary', JSON.stringify(vocabularyData))
+            } 
+            database.vocabularyObject = vocabularyJson
+            console.log('no vocabulary data found')
+          }
+        } catch (error) {
+          // Error retrieving data
+          console.log('vocabulary data retrieval error ', error )
+        }
+      }
+
+
       static getSoundModifiersData() {
         return database.soundModifiersObject
       }
@@ -76,9 +104,17 @@ import { soundModifiersData } from "utils/soundModifiers";
         return database.lettersObject
       }
       static setLetterData(lettersData:[]){
-        AsyncStorage.setItem('letters',JSON.stringify(lettersData))
-        
+        AsyncStorage.setItem('letters',JSON.stringify(lettersData))        
       }
+
+      static getVocabularyData(){
+        return database.vocabularyObject
+      }
+      static setVocabularyData(vocabularyData:[]){
+        AsyncStorage.setItem('vocabulary',JSON.stringify(vocabularyData))        
+      }
+
+
       static async removeLettersDatabase(){
         try {
           await AsyncStorage.removeItem('letters');

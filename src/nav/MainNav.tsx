@@ -10,14 +10,15 @@ import Gurmukhi from "screens/Gurmukhi";
 import GurmukhiDetails from "screens/Gurmukhi/Details"
 import Gurmukhi2ndScreen from "screens/Gurmukhi/Gurmukhi2nd"
 import WordFormation from "screens/WordFormation"
-
 import WordFormationDetails from 'screens/WordFormation/Details';
+import VocabularyModules from 'screens/VocabularyModules';
+import Vocabulary from 'screens/VocabularyModules/Vocabulary';
+import VocabularyDetails from 'screens/VocabularyModules/Vocabulary/VocabularyDetails';
 
 const optionNavigator: any = {
     headerShown: false,
     gesturesEnabled: false,
 };
-
 
 
 const MainNavigation = memo(() => {
@@ -53,7 +54,10 @@ const MainNavigation = memo(() => {
                 <Screen name={ROUTERS.Details} component={GurmukhiDetails} options={optionNavigator} />
                 <Screen name={ROUTERS.WordFormation} component={WordFormation} options={optionNavigator} />
                 <Screen name={ROUTERS.WordFormationDetails} component={WordFormationDetails} options={optionNavigator} />
-
+                <Screen name={ROUTERS.Vocabulary} component={Vocabulary} options={optionNavigator} />
+                <Screen name={ROUTERS.VocabularyModules} component={VocabularyModules} options={optionNavigator} />
+                <Screen name={ROUTERS.VocabularyDetails} component={VocabularyDetails} options={optionNavigator} />
+                
             </Navigator>
         </NavigationContainer>
 

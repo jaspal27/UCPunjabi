@@ -1,4 +1,4 @@
-export const IMAGESSOLID = {
+export const SOLIDLETTERS = {
   letter1: require('../../assets/solid/ls01.png'), // statically analyzed
   letter2: require('../../assets/solid/ls02.png'), 
   letter3: require('../../assets/solid/ls03.png'), 
@@ -43,7 +43,7 @@ export const IMAGESSOLID = {
   
 
 }
-export const IMAGESOUTLINE = {
+export const OUTLINEDLETTERS = {
   letter1: require('../../assets/outline/lo01.png'), // statically analyzed
   letter2: require('../../assets/outline/lo02.png'), 
   letter3: require('../../assets/outline/lo03.png'), 
@@ -85,4 +85,22 @@ export const IMAGESOUTLINE = {
   letter39: require('../../assets/outline/lo39.png'), 
   letter40: require('../../assets/outline/lo40.png'), 
   letter41: require('../../assets/outline/lo41.png'),
+}
+
+export const IMAGES = {
+  AppLogo: require('../../assets/images/AppLogo.png'),
+  AppLogoUpdated: require('../../assets/images/AppLogoUpdated.png'), // statically analyzed
+  BlankOpeningScreen: require('../../assets/images/BlankOpeningScreen.png'),
+  BugIcon: require('../../assets/images/BugIcon.png'),
+  FlipCard: require('../../assets/images/FlipCard.png'),
+  GoBack: require('../../assets/images/GoBack.png'),
+  LoopAudio: require('../../assets/images/LoopAudio.png'),
+  NextWord: require('../../assets/images/NextWord.png'),
+  OpeningScreen: require('../../assets/images/OpeningScreen.png'),
+  PauseAudio: require('../../assets/images/PauseAudio.png'),
+  PlayAudio: require('../../assets/images/PlayAudio.png'),
+  PreviousWord: require('../../assets/images/PreviousWord.png'),
+  SettingsIcon: require('../../assets/images/SettingsIcon.png'),
+  StarHollow: require('../../assets/images/StarHollow.png'),
+  StarSolid: require('../../assets/images/StarSolid.png'),
 }

@@ -16,7 +16,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StatusBar,
   Platform
 } from 'react-native';
@@ -40,7 +39,7 @@ const Home = () => {
     const onSkipPress = useCallback(()=>{
       navigate(ROUTERS.Home);
   },[]);
-  const item = 
+  const item =
     {
       title: 'Welcome to UC Punjabi',
       text1: 'Gurmukhi Script',
@@ -53,7 +52,7 @@ const Home = () => {
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-     
+
       <View style={{
                 flex: 1,
                 backgroundColor: item.backgroundColor,
@@ -61,7 +60,7 @@ const Home = () => {
                 justifyContent: 'space-around',
                 paddingBottom: 250
               }}>
-                
+
             <View style={styles.buttonContainer}>
            <TouchableOpacity  onPress={onSkipPress}>
               <Button style={styles.buttonSkipText} type="clear"
@@ -90,21 +89,21 @@ const Home = () => {
             }
             titleStyle= {[styles.buttonIconText]}  title={item.text5} type="clear"/>
           </View>
-          
-        
-      
+
+
+
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  MainContainer: { 
-   flex: 1, 
-   paddingTop: 20, 
-   alignItems: 'center', 
-   justifyContent: 'center', 
-   padding: 20 
-  }, 
+  MainContainer: {
+   flex: 1,
+   paddingTop: 20,
+   alignItems: 'center',
+   justifyContent: 'center',
+   padding: 20
+  },
   buttonContainer: {
     flexDirection: 'row',
     width:100,
@@ -133,14 +132,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth:1
   },
-   
+
   slide: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'blue',
     },
-   
+
     text: {
       color: 'rgba(255, 255, 255, 0.8)',
       textAlign: 'center',

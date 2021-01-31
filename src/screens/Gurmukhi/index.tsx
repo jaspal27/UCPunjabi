@@ -16,9 +16,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StatusBar,
-
   Platform
 } from 'react-native';
 import { Button, Image } from 'react-native-elements';
@@ -29,7 +27,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
 import database from "utils/database";
 import LinearGradient from 'react-native-linear-gradient';
-import { IMAGESSOLID, IMAGESOUTLINE } from 'utils/imagesRequiers';
+import { SOLIDLETTERS, OUTLINEDLETTERS } from 'utils/imagesRequiers';
 
 const text1 = "Start with the first letter and open the rest."
 var isIos = false;
@@ -50,10 +48,6 @@ const Gurmukhi = () => {
 
   const { navigate } = useNavigation();
 
-  const onNextScreen = useCallback(() => {
-    navigate(ROUTERS.Gurmukhi);
-  }, []);
-
   const onSkipPress = useCallback(() => {
     if (listner) {
       EventRegister.removeEventListener(listner)
@@ -62,19 +56,20 @@ const Gurmukhi = () => {
     navigate(ROUTERS.Home);
   }, []);
 
-  const onAlphabetPress = (item: any) => {
+  const onLetterPress = (item: any) => {
+    //console.log('L60 Gurmukhi(), item.name = ', item.name);
+
     listner = EventRegister.addEventListener('myCustomEvent', (data: number) => {
-      // console.log(data);
+      //console.log(data);
 
       let tempItems: any = letters.slice()
       tempItems[data].['status'] = true
       setLetters(tempItems)
       database.setLetterData(tempItems)
-
     })
 
     // console.log(item)
-    if(item.status){
+    if (item.status) {
       navigate(ROUTERS.Gurmukhi2ndScreen, item);
     }
   }
@@ -116,7 +111,7 @@ const Gurmukhi = () => {
       }}>
 
         <LinearGradient
-          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
+          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
           style={styles.linearGradient}
         >
 
@@ -128,11 +123,11 @@ const Gurmukhi = () => {
             style={styles.gridView}
             renderItem={({ item }) => (
               <View style={[styles.itemContainer]}>
-                <TouchableOpacity onPress={() => onAlphabetPress(item)}>
+                <TouchableOpacity onPress={() => onLetterPress(item)}>
                   {
                     item.status ?
-                      <Image style={{ width: 50, height: 50 }} source={IMAGESSOLID[item.name]} />
-                      : <Image style={{ width: 50, height: 50 }} source={IMAGESOUTLINE[item.name]} />
+                      <Image style={{ width: 50, height: 50 }} source={SOLIDLETTERS[item.name]} />
+                      : <Image style={{ width: 50, height: 50 }} source={OUTLINEDLETTERS[item.name]} />
                   }
                 </TouchableOpacity>
               </View>
