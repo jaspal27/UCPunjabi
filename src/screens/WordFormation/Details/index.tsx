@@ -103,7 +103,7 @@ const audioPlay =(item: any)=>{
         backgroundColor: "#2f85a4",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 350
+        paddingBottom: 200
       }}>
 
         <Text style={{ fontSize: 32}}>{cardItem.pname}</Text>
@@ -117,7 +117,6 @@ const audioPlay =(item: any)=>{
               icon={
                 <Icon name="volume-medium-outline"  size={32}></Icon>
               }
-              iconRight
             />
           </TouchableOpacity>
         </Card>

@@ -15,6 +15,9 @@ const ROUTERS = {
     WordFormation:'WordFormation',
     WordFormationDetails:'WordFormationDetails',
     ReportIssue: 'Report',
+    Vocabulary: 'Vocabulary',
+    VocabularyModules: 'VocabularyModules',
+    VocabularyDetails: 'VocabularyDetails',
 };
 
 export {Stack, NavigationContainer, Navigator, Screen, ROUTERS};

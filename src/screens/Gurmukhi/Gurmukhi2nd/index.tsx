@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useCallback,useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -27,7 +27,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
 import { Player } from '@react-native-community/audio-toolkit';
 import LinearGradient from 'react-native-linear-gradient';
-import { IMAGESSOLID, IMAGESOUTLINE } from 'utils/imagesRequiers';
+import { SOLIDLETTERS, OUTLINEDLETTERS } from 'utils/imagesRequiers';
 
 const text1 = "Tap audio icon to open the next letter."
 var isIos = false;
@@ -38,7 +38,8 @@ if (Platform.OS == 'ios') {
 }
 
 const Gurmukhi2ndScreen = ({ route }) => {
-  
+
+  console.log('Gurmukhi2ndScreen() : route =', route)
   let letterId = 0
   let itemParams: any;
 
@@ -48,7 +49,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
   }
 
   let [cardItem, setCardItem] = React.useState(itemParams)
-  
+
   // read letters data from local cache 
   let lettersData: [] = database.getLettersData()
 
@@ -56,30 +57,29 @@ const Gurmukhi2ndScreen = ({ route }) => {
   let offset = Math.floor(letterId / 5) * 5
   let tempArray = lettersData.slice(offset, offset + 5)
   let [letters, setLetters] = React.useState(tempArray)
-  let selectedItem:any =0;
+  let selectedItem: any = 0;
   const { navigate } = useNavigation();
 
   const onPrevScreen = useCallback(() => {
     navigate(ROUTERS.Gurmukhi);
   }, []);
 
-  
+
   useEffect(() => {
-   // myFunction();
+    // myFunction();
     return () => {
       setCardItem({}); // This worked for me
     };
-}, []);
-const myFunction = () => {
-  //setCardItem(tempArray)
-}
+  }, []);
+  const myFunction = () => {
+    //setCardItem(tempArray)
+  }
   const onLetterPress = (item: any) => {
     //console.log('onLetterPress item.id=', item.id)
-    if(item.status){
+    if (item.status) {
       selectedItem = item
-    setCardItem(item)
+      setCardItem(item)
     }
-    
   }
 
   // the next line was 'const onAudioPlay = useCallback(() =>' before
@@ -165,16 +165,11 @@ const myFunction = () => {
           <Text style={styles.title}>Row {cardItem.rowNum}</Text>
 
           <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
-            <Image style={{ width: 160, height: 160 }} source={IMAGESSOLID[cardItem.name]} />
+            <Image style={{ width: 160, height: 160 }} source={SOLIDLETTERS[cardItem.name]} />
 
             <TouchableOpacity  >
               <Button type="clear" onPress={() => onAudioPlay(cardItem)}
-                // title={itemParams.description} this is no longer  in use
-                icon={
-                  <Icon name="volume-medium-outline" size={32}></Icon>
-                }
-                iconRight
-              />
+                icon={  <Icon name="volume-medium-outline" size={32}></Icon>  } />
             </TouchableOpacity>
           </Card>
           <Text />
@@ -187,14 +182,14 @@ const myFunction = () => {
             renderItem={({ item }) => (
               <View style={[styles.itemContainer]}>
                 <TouchableOpacity onPress={() => onLetterPress(item)} >
-             
+
                   {
                     item.status ?
-                      <Image style={{ width: 50, height: 50 }} source={IMAGESSOLID[item.name]} />
-                      : <Image style={{ width: 50, height: 50 }} source={IMAGESOUTLINE[item.name]} />
+                      <Image style={{ width: 50, height: 50 }} source={SOLIDLETTERS[item.name]} />
+                      : <Image style={{ width: 50, height: 50 }} source={OUTLINEDLETTERS[item.name]} />
                   }
                 </TouchableOpacity>
-                  
+
               </View>
             )}
           />

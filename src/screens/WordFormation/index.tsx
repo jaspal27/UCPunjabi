@@ -16,7 +16,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StatusBar,
   Platform
 } from 'react-native';
@@ -30,7 +29,7 @@ import AndroidCustomIcon from 'utils/androidCustomIcon';
 import database from "utils/database";
 import { ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
 import LinearGradient from 'react-native-linear-gradient'
-import{SOUNDMODIFIERS} from 'utils/smImagesRequires';
+import { FlatGrid } from 'react-native-super-grid';
 
 var isIos = false;
 let headerMarginTop = 0;
@@ -47,7 +46,6 @@ const WordFormation = () => {
   let soundModifiersData: [] = database.getSoundModifiersData()
   let [soundModifiers, setSoundModifiers] = React.useState(soundModifiersData)
 
-  //console.log('WordFormation()')
   const { navigate } = useNavigation();
 
   const onSkipPress = useCallback(() => {
@@ -66,28 +64,16 @@ const WordFormation = () => {
 
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
+      <View style={{ flexDirection: 'row', backgroundColor: "#009DC2", paddingTop: 30 }}>
         <TouchableOpacity   >
           <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
-            icon={
-              <Icon
-                name="arrow-back"
-                size={30}
-                color="black"
-              />
-            }>
+            icon={  <Icon  name="arrow-back"  size={30}  color="black"/>  }>
           </Button>
         </TouchableOpacity>
-        <Text style={{ fontSize: 30, marginTop: headerMarginTop, marginLeft: 60, color: '#1D2359', textAlign: 'center' }}>Word Formation</Text>
+        <Text style={{ fontSize: 30, marginTop: headerMarginTop, marginLeft: 110, color: '#1D2359', textAlign: 'center' }}>Vowels</Text>
         {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
-          icon={
-            <Icon
-              name="bug"
-              size={30}
-              color="black"
-            />
-          }>
+          icon={  <Icon  name="bug"  size={30}  color="black"/>  }>
         </Button>
         */}
       </View >
@@ -99,43 +85,31 @@ const WordFormation = () => {
         justifyContent: 'space-around',
         paddingBottom: 0
       }}>
-        {/*
+
         <LinearGradient
-          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
-          style={styles.linearGradient}
-        >
-        */}
-        <View></View>
-        <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 4}}> Making words with vowels</Text>
-        <Text></Text>
-        <FlatList
+          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
+          style={styles.linearGradient} >
+
+        <FlatGrid
+         itemDimension={200}
           data={soundModifiers}
           style={styles.gridView}
           renderItem={ ({ item }) => (
             <View style={[styles.itemContainer]}>
-              <View style={[styles.button]}>
-                <TouchableOpacity onPress={() => onWordPress(item)}>
-                  {
-                    <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 0 }}>
+              <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline}
+                title={
+                  <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 0 }}>
                       {item.pname} {item.symbol}
                     </Text>
-                  }
-                </TouchableOpacity>
-              </View>            
-              {/*
-              <Button
-                type="outline"
-                titleStyle={{ color: colors.grey5 }}
-                buttonStyle={[{ borderColor: colors.grey0 }, { width: '100%' }]}
+                }
                 onPress={() => onWordPress(item)}
-                title={item.pname}{item.symbol}
+                type="outline"
               />
-          */}
             </View>
           )}
           keyExtractor={item => item.symbol}
         />
-        {/* </LinearGradient> */}
+        </LinearGradient>
       </View>
     </>
   );
@@ -161,8 +135,9 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
-    padding: 5,
-    height: 62,
+    padding: 4,
+    height: 60,
+    alignItems: 'center'
   },
   button :{
     borderColor: '#A8A8A8',
@@ -204,7 +179,8 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     borderColor: 'black',
-    borderWidth: 1
+    borderWidth: 1,
+    borderRadius: 10,
   },
   slide: {
     flex: 1,
