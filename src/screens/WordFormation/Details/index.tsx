@@ -103,7 +103,7 @@ const audioPlay =(item: any)=>{
         backgroundColor: "#2f85a4",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 200
+        paddingBottom: 160
       }}>
 
         <Text style={{ fontSize: 32}}>{cardItem.pname}</Text>
