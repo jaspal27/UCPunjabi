@@ -89,7 +89,7 @@ export const vocabularyData = {
         Verbs:
             [
                 { id:32, gender: '', punjabi:'ਜਾਗਣਾ', starred: false, english:'to wake up', audioId:'voc0333'},
-                { id:32, gender: '', punjabi:'ਬੈਠਣਾ', starred: false, english:'to sit', audioId:'voc0334'},
+                { id:33, gender: '', punjabi:'ਬੈਠਣਾ', starred: false, english:'to sit', audioId:'voc0334'},
                 { id:34, gender: '', punjabi:'ਦੇਖਣਾ', starred: false, english:'to see', audioId:'voc0335'},
                 { id:35, gender: '', punjabi:'ਖਾਣਾ', starred: false, english:'to eat', audioId:'voc0336'},
                 { id:36, gender: '', punjabi:'ਜਾਣਾ', starred: false, english:'to go', audioId:'voc0337'},

@@ -63,7 +63,7 @@ const VocabularyDetails = ({ route }) => {
   let flatVocabListAll: any[] = []             // flat list of all words, populated below
 
   // Prepare dynamic list of items for the drop down picker, set 'All Words' as default
-  let dropDownItems: any[] = [{ label: 'All Words', value: 'All Words', hidden: true }]
+  let dropDownItems: any[] = [{ label: 'All Words', value: 'All Words', hidden: false }]
 
   // Set index range for adjectvies if there are any; also add adjectives to flatVocabListAll and update dropdownItems
   if (flatAdjectivesList != undefined){
@@ -126,6 +126,7 @@ const VocabularyDetails = ({ route }) => {
   const loopAudio = (item: any) => {
     if (loopBool) {
       loopBool = false
+      updateSpeedText(playBackText)
       player.destroy()
     }
     else {
@@ -158,8 +159,7 @@ const VocabularyDetails = ({ route }) => {
     updateSpeedText(playBackText)  // reset plaback speed text
     cardFlipped = false              // unflip the card 
 
-    console.log('L161 VocabularyDetails(), previousWord(): currIdx, item,', currItemIndex,  item);
-
+    console.log('L162 prevWord():  item = ', item);
     // Based on the dropdown selection, move back if item is not the first one in selected group
     switch(currentDDSelection){
       case 'Adjectives':
@@ -182,10 +182,8 @@ const VocabularyDetails = ({ route }) => {
         break
       case 'Starred':
         let tempIdx = starredItemIdList.indexOf(item)
-        //console.log('L238 nextWord(): tempIdx = ', tempIdx, ' starredItemIdList: ', starredItemIdList)
         if (tempIdx == 0){
           cardItem = starredItemIdList[tempIdx]
-          //updateCurrItemNum(tempIdx+2)
         }
         else if (tempIdx < starredItemIdList.length){
           cardItem = starredItemIdList[tempIdx-1]
@@ -193,7 +191,6 @@ const VocabularyDetails = ({ route }) => {
         }
         else{
           // we are already at the end of list
-          //console.log('L249 nextWord(): end of list reached')
           cardItem = starredItemIdList[tempIdx]
         }
         break
@@ -205,7 +202,7 @@ const VocabularyDetails = ({ route }) => {
     }
 
     // Update star state
-    if (item.starred){
+    if (cardItem.starred){
       updateStarImgSrc(IMAGES['StarSolid'])
     }
     else{
@@ -224,8 +221,7 @@ const VocabularyDetails = ({ route }) => {
     updateSpeedText(playBackText)    // reset plaback speed text
     cardFlipped = false              // unflip the card 
 
-    console.log('L204 nextWord(): , item  ,',  item);
-    console.log('L205 nextWord(): selection starredItemIdList,', currentDDSelection);
+    console.log('L224 nextWord(): item = ', item);
 
     // Based on the dropdown selection, move back if item is not the first one in selected group
     switch(currentDDSelection){
@@ -249,18 +245,25 @@ const VocabularyDetails = ({ route }) => {
         break
       case 'Starred':
         let tempIdx = starredItemIdList.indexOf(item)
-        //console.log('L238 nextWord(): tempIdx = ', tempIdx, ' starredItemIdList: ', starredItemIdList)
-        if (tempIdx == 0){
+        let listLen = starredItemIdList.length
+        if (tempIdx == 0 && listLen == 1){
+          // There is only one starred item; there is no next item to display
+          cardItem = starredItemIdList[tempIdx]
+          //updateCurrItemNum(tempIdx+2)
+        }
+        else if (tempIdx == 0 && listLen > 1){
+          // There is a next itme to go display
           cardItem = starredItemIdList[tempIdx+1]
           updateCurrItemNum(tempIdx+2)
         }
-        else if (tempIdx > 0 && tempIdx < starredItemIdList.length-1){
+        else if (tempIdx > 0 && tempIdx < listLen-1){
+          // There is a next itme to go display
           cardItem = starredItemIdList[tempIdx+1]
           updateCurrItemNum(tempIdx+1)
         }
         else{
-          // we are already at the end of list
-          //console.log('L249 nextWord(): end of list reached')
+          // we are at the end of list
+          updateCurrItemNum(tempIdx+1)
           cardItem = starredItemIdList[tempIdx]
         }
         break
@@ -274,7 +277,7 @@ const VocabularyDetails = ({ route }) => {
     }
 
     // Update star state
-    if (item.starred){
+    if (cardItem.starred){
       updateStarImgSrc(IMAGES['StarSolid'])
     }
     else{
@@ -288,7 +291,6 @@ const VocabularyDetails = ({ route }) => {
 
   // Callback for flipping the word card
   const flipCard = (item: any) => {
-    console.log('L259 VocabularyDetails(), flipCard() item, cardFlipped = ', item, cardFlipped);
     player.destroy()                // stop audio in case it is looping
     updateSpeedText(playBackText)  // reset plaback speed text
     updateNoStarredText("")
@@ -317,7 +319,33 @@ const VocabularyDetails = ({ route }) => {
       item.starred = true
       updateStarImgSrc(IMAGES['StarSolid'])
     }
+
+    //console.log('L330 starCard(): set before: ',  starredItemsSet)
+    // Scan word list and populate starredItemsSet
+    for(let i = 0 ; i<flatVocabListAll.length; i++){
+      if (flatVocabListAll[i].starred){
+        starredItemsSet.add(flatVocabListAll[i])
+      }
+      else{
+        starredItemsSet.delete(flatVocabListAll[i])
+      }
+    }
   }
+
+  // Clear all stars
+  const clearStars = () => {
+    // First clear stars in the source list of all cards
+    for(let i = 0 ; i<flatVocabListAll.length; i++){
+      flatVocabListAll[i].starred = false
+    }
+
+    // Now clear the supporting states
+    starredItemsSet.clear()
+    starredItemIdList = []
+    currentDDSelection = 'All Words'
+    numItems = flatVocabListAll.length
+  }
+
 
   // Callback for handling dropdown selections
   const setSelection =(item: any)=>{
@@ -336,7 +364,7 @@ const VocabularyDetails = ({ route }) => {
         numItems = indexRangeNouns.end - indexRangeNouns.start + 1
         cardItem = flatVocabListAll[indexRangeNouns.start]
         currItNum = cardItem.id - indexRangeNouns.start
-        console.log('L291 setSelection() Nouns: cardItem = ', cardItem, '  currItNum =', currItNum, ' indexRangeNouns.start=', indexRangeNouns.start)
+        //console.log('L291 setSelection() Nouns: cardItem = ', cardItem, '  currItNum =', currItNum, ' indexRangeNouns.start=', indexRangeNouns.start)
         break
       case 'Verbs':
         numItems = indexRangeVerbs.end - indexRangeVerbs.start + 1
@@ -349,17 +377,18 @@ const VocabularyDetails = ({ route }) => {
           if (flatVocabListAll[i].starred){
             starredItemsSet.add(flatVocabListAll[i])
           }
+          else{
+            starredItemsSet.delete(flatVocabListAll[i])
+          }
         }
 
         if(starredItemsSet.size <= 0){
           // There are no starred cards, hence nothing to do here
-          updateNoStarredText("No cards are starred")
-          //currentDDSelection = 'All Words'
+          updateNoStarredText("There are no starred cards. Make another selection.")
+          currentDDSelection = 'All Words'
           return
         }
         starredItemIdList = [... starredItemsSet]
-        console.log('L320 setSelection() starredItemIdList = ', starredItemIdList)
-        console.log('L320 setSelection() starredItemsSet = ', starredItemsSet) 
         numItems = starredItemIdList.length
         cardItem = starredItemIdList[0]
         currItNum = 1
@@ -397,18 +426,18 @@ const VocabularyDetails = ({ route }) => {
         </TouchableOpacity>
         <Text style={styles.title}> {topic}</Text>
       </View >
-
+      
       <View style={{
         flex: 1,
         backgroundColor: "#ffffff",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 100,
+        paddingBottom: 60,
       }}>
         <LinearGradient
           colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
           style={styles.linearGradient}>
-        
+         
           <DropDownPicker
             activeLabelStyle={{ color: '#256783', fontSize: 16, fontWeight: '600' }}
             selectedLabelStyle={{ color: '#256783', fontSize: 16, fontWeight: '600' }}
@@ -438,12 +467,14 @@ const VocabularyDetails = ({ route }) => {
               <Button type="clear" onPress={() => starCard(cardItem) }
                 icon={ <Image source={imgsrc} style={styles.topButtonsStyle}/> } 
               />
-              {/* spacer */}
-              <Button type="clear"/><Button type="clear"/>
+              <Button buttonStyle={styles.clearStarsButton} titleStyle={[styles.clearStarsButtonText]} title="Clear Stars" onPress={() => clearStars()}/>
               <Button type="clear" onPress={() => flipCard(cardItem)}
                 icon={<Image source={IMAGES['FlipCard']} style={styles.topButtonsStyle} />} 
               />
             </View>
+            
+            {/*spacers */}
+            <Text/><Text/>
 
             {
               cardFlipped ?
@@ -454,8 +485,15 @@ const VocabularyDetails = ({ route }) => {
                     : <Text style={styles.cardTextPlain} onPress = {() => flipCard(cardItem)}>{cardText}</Text>
                 : <Text style={styles.cardTextPlain} onPress = {() => flipCard(cardItem)}>{cardText}</Text>
             }
+            
+            {/*  Leaving out for now
+              cardItem.gender == "m" ?
+                <Text style={styles.genderText}>(m)</Text>
+                : <Text style={styles.genderText}>(f)</Text>
+            */}
+          
           </Card>
-
+          
           <View style={{width: 500, alignItems: 'center',}} >
             <View style={{
               flex: 0,
@@ -558,6 +596,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop:24,
   },
+  genderText: {
+    width: 300,
+    fontSize: 16,
+    color: '#a64d79',
+    textAlign: 'right',
+  },
   cardTextPlain: {
     width: 300,
     fontSize: 54,
@@ -567,14 +611,15 @@ const styles = StyleSheet.create({
   cardTextPink: {
     width: 300,
     fontSize: 54,
-    color: 'magenta',
+    color: '#a64d79', // this is dark magenta 1
     // color: '#741b47', // this is Google Docs dark magenta 2 suggested by Reeta
     textAlign: 'center',
   },
   cardTextBlue: {
     width: 300,
     fontSize: 54,
-    color: 'blue',
+    //color: 'blue',
+    color: '#3d85c6',  // dark blue 1
     textAlign: 'center',
   },
   title:{
@@ -586,6 +631,22 @@ const styles = StyleSheet.create({
   },
  spacer: {
    padding:20,
+ },
+ clearStarsButton:{
+  backgroundColor: '#256783',
+  //borderColor: 'red',
+  //borderWidth: 5,
+  borderRadius: 8,
+  fontSize: 16
+ },
+ clearStarsButtonText:{
+  //paddingTop: 10,
+  //width: 340,
+  //height: 40,
+  //color: 'black',
+  fontSize: 16,
+  fontWeight: '400',
+  textAlign: 'center',
  }
 });
 
