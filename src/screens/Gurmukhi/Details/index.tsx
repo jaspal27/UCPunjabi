@@ -46,15 +46,19 @@ if (Platform.OS == 'ios') {
 }
 const GurumukhiDetails = () => {
   const { navigate } = useNavigation();
+  
   const onNextScreen = useCallback(() => {
     navigate(ROUTERS.Gurumukhi2ndScreen);
   }, []);
+
   const onSkipPress = useCallback(() => {
     navigate(ROUTERS.Gurumukhi2ndScreen);
   }, []);
+
   const onPress = useCallback(() => {
     navigate(ROUTERS.Gurumukhi2ndScreen);
   }, []);
+
   const onAudioPlay = useCallback(() => {
     //  let audio = new Audio()
 

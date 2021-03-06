@@ -47,7 +47,11 @@ const topicsData =
     {id: 0, topic: 'Family'},
     {id: 1, topic: 'Home'},
     {id: 2, topic: 'Body & Health'},
-    // Adjust itemContainer.marginTop and remove spacers <Text> tags as more topics are added
+    {id: 3, topic: 'Market & Food'},
+    {id: 4, topic: 'Faith & Celebrations'},
+    {id: 5, topic: 'Clothes & Fashion'},
+    {id: 6, topic: 'Daily Routines & Hobbies'},
+    //{id: 7, topic: 'College Life'},
   ]
 
 const VocabularyModules = () => {
@@ -154,8 +158,8 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
-    padding: 4,
-    height: 60,
+    padding: 12,
+    height: 40,
     alignItems: 'center',
     marginTop: 24
   },
@@ -187,8 +191,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     width: 320,
-    height: 40,
-    paddingTop: 10,
+    height: 28,
+    paddingTop: 4,
     color: 'black',
     fontWeight: '400',
     textAlign: 'center',

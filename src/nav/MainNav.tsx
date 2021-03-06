@@ -1,9 +1,8 @@
 import 'react-native-gesture-handler';
-import React, {  memo, useCallback, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 import { NavigationContainer, navigationRef, Navigator, ROUTERS, Screen } from 'utils/navigation'
 import SplashScreen from 'react-native-splash-screen'
 // @ts-ignore
-
 
 import Home from "screens/Home";
 import Gurmukhi from "screens/Gurmukhi";
@@ -14,12 +13,13 @@ import WordFormationDetails from 'screens/WordFormation/Details';
 import VocabularyModules from 'screens/VocabularyModules';
 import Vocabulary from 'screens/VocabularyModules/Vocabulary';
 import VocabularyDetails from 'screens/VocabularyModules/Vocabulary/VocabularyDetails';
+import Numbers from 'screens/Numbers';
+import NumbersDetails from 'screens/Numbers/NumbersDetails';
 
 const optionNavigator: any = {
     headerShown: false,
     gesturesEnabled: false,
 };
-
 
 const MainNavigation = memo(() => {
     useEffect(() => {
@@ -57,7 +57,8 @@ const MainNavigation = memo(() => {
                 <Screen name={ROUTERS.Vocabulary} component={Vocabulary} options={optionNavigator} />
                 <Screen name={ROUTERS.VocabularyModules} component={VocabularyModules} options={optionNavigator} />
                 <Screen name={ROUTERS.VocabularyDetails} component={VocabularyDetails} options={optionNavigator} />
-                
+                <Screen name={ROUTERS.Numbers} component={Numbers} options={optionNavigator} />
+                <Screen name={ROUTERS.NumbersDetails} component={NumbersDetails} options={optionNavigator} />
             </Navigator>
         </NavigationContainer>
 

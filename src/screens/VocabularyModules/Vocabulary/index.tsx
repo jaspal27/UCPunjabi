@@ -22,7 +22,7 @@ import {
   StatusBar,
   Platform
 } from 'react-native';
-import { Button, Image, colors } from 'react-native-elements';
+import { Button, ButtonGroup, Image, colors } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners'
 import { useNavigation } from "@react-navigation/native";
@@ -37,6 +37,7 @@ let headerMarginTop = 0;
 let gridViewTop = 0;
 let topic = ""
 let spacing = "                "
+//let selectedButtonIdx = 0
 
 if (Platform.OS == 'ios') {
   isIos = true;
@@ -46,29 +47,31 @@ if (Platform.OS == 'ios') {
 
 const Vocabulary = ({ route }) => {
 
-  console.log('L52 Vocabulary(), route.params=', route.params)
-
+  //console.log('L52 Vocabulary(), route.params=', route.params)
   if (route.params) {
     topic = route.params.topic  // this is the name of the selected vocabualry topic
   }
 
   let listner: any;
   let vocabularyData: [] = database.getVocabularyData()
-  let sectionsData: { title: string; data: any; }[] = []
-  let [vocabulary, setVocabulary] = React.useState(vocabularyData)
-  //console.log('L59 Vocabulary(), vocabulary = ', vocabulary)
-  //console.log('L60 Vocabulary(), vocabulary topic = ', vocabulary[topic])  //this gives us vocab for the given topic
+  //let sectionsData: { title: string; data: any; }[] = []
+  let [allWords, setWords] = React.useState(vocabularyData)
+ 
+  //Filter in vocabulary only for the selected topic
+  let topicWords = allWords[topic]
+  let vocKeys =  Object.keys(topicWords)
+ 
+  // Setup for the ButtonGroup and list of words to display
+  let buttons = []
+  let [selectedButtonIdx, setSelectedButtonIdx] = React.useState(0)
+  //let [selectedButtonColor, setButtonColor] = React.useState('skyblue')
+  let [listWords, setListWords] = React.useState(topicWords[vocKeys[0]])
 
-  //Filter in vocabulary only the the selected topic
-  vocabulary = vocabulary[topic]
-  let vocKeys =  Object.keys(vocabulary)
-  console.log('L65 Vocabulary(), vocabulary keys = ', vocKeys)
-  //console.log('L66 Vocabulary(), vocabulary keys keys = ', vocabulary[vocKeys[0]] )
-
+  // Setup for the button labels
   for (var vkey in vocKeys){
-    //console.log('L69 Vocabulary(), element = ', vocabulary[vocKeys[vkey]])
-    let secItem = {title: vocKeys[vkey], data: vocabulary[vocKeys[vkey]] }
-    sectionsData.push(secItem)
+    let secItem = {title: vocKeys[vkey], data: topicWords[vocKeys[vkey]] }
+    //sectionsData.push(secItem)
+    buttons.push(vocKeys[vkey])
   }
 
   const { navigate } = useNavigation();
@@ -82,26 +85,46 @@ const Vocabulary = ({ route }) => {
   }, []);
 
   const onButtonPress = (item: any) => {
-   navigate(ROUTERS.VocabularyDetails, {item, topic, vocabulary});
+    //Set the relevant word group to dispaly, e.g. Adjectives, Nouns or Verbs
+    let selectedWordGroup = vocKeys[selectedButtonIdx];
+
+    //Set the actual word list to display
+    let selectedWords = topicWords[vocKeys[selectedButtonIdx]]
+
+    // Send the entire context to the next screen via the navigation route
+    navigate(ROUTERS.VocabularyDetails, {item, topic, selectedWordGroup, selectedWords});
   }
+
+  const showList = (selectedIdx: any) => {
+    //console.log('L103 Vocabulary(), showList pressed selectedIdx = ', selectedIdx);
+    setListWords(topicWords[vocKeys[selectedIdx]])
+    setSelectedButtonIdx(selectedIdx)
+  }
+
+  const ItemSeprator = () => <View style={{
+    height: 1,
+    width: "100%",
+    backgroundColor: "silver",
+  }} />
 
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-      <View style={{ flexDirection: 'row', backgroundColor: "#009DC2", paddingTop: 30 }}>
+
+      <View style={{ flexDirection: 'row', backgroundColor: "#009DC2", paddingTop: 15 }}>
         <TouchableOpacity   >
           <Button onPress={onBackPress} style={styles.buttonSkipText} type="clear"
             icon={  <Icon  name="arrow-back"  size={30}  color="black"/>  }>
           </Button>
         </TouchableOpacity>
-        <Text style={styles.title}> {topic}</Text>
+        
         {/* Nirvair: Hiding this button for now
         <Button onPress={onBackPress} style={styles.buttonSkipText} type="clear"
           icon={  <Icon  name="bug"  size={30}  color="black"/>  }>
         </Button>
         */}
       </View >
-
+      
       <View style={{
         flex: 1,
         backgroundColor: "#2f85a4",
@@ -113,25 +136,36 @@ const Vocabulary = ({ route }) => {
         <LinearGradient
           colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
           style={styles.linearGradient}>
-
+          
+          <Text style={styles.title}>{topic}</Text>
+          {/* spacer */}
           <Text/>
-          <SectionGrid
-            itemDimension={300}
-            spacing= {4}
-            sections={sectionsData}
-            style={styles.gridView}
-            renderItem={({ item, section, index }) => (
-              <TouchableWithoutFeedback onPress={() => onButtonPress(item)}>
-                <View style={[styles.itemContainer]}>
+
+          <ButtonGroup
+            selectedIndex={selectedButtonIdx}
+            buttons={buttons}
+            containerStyle={{ height: 40 }}
+            selectedButtonStyle={styles.selectedButton}
+            onPress={showList}
+            />
+            {/* spacers */}
+            <Text/>
+          
+            <FlatList
+              data={listWords}
+              keyExtractor={item => item.id}
+              numColumns = {1}
+              ItemSeparatorComponent={ItemSeprator}
+              renderItem={({ item }) => (
+                <TouchableWithoutFeedback onPress={() => onButtonPress(item)}>
+                <View style={styles.listItem}>
                   <Text style={styles.wordTextPunjabi}>{item.punjabi}</Text>
                   <Text style={styles.wordTextEnglish}>{item.english}</Text>
                 </View>
-              </TouchableWithoutFeedback>
-            )}
-            renderSectionHeader={({ section }) => (
-                  <Text style={styles.sectionHeader}>{section.title}</Text>
-            )}
-          />
+                </TouchableWithoutFeedback>
+                )}
+            />
+
         </LinearGradient>
       </View>
     </>
@@ -158,22 +192,42 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   wordTextPunjabi: {
-    width: 140,
+    width: 120,
+    height: 33,
     fontSize: 18,
     color: 'black',
     textAlign: 'left',
+    paddingTop: 8
   },
   wordTextEnglish: {
-    width: 210,
-    fontSize: 17,
+    width: 240,
+    height: 33,
+    fontSize: 16,
     color: 'black',
     textAlign: 'left',
+    paddingTop: 9,
+    flex: 0
   },
-  gridView: {
+  listView: {
     width: 410,
     marginTop: 0,
     marginRight: 0,
     flex: 1,
+    justifyContent: 'space-between',
+  },
+  listItem: {
+    //maxWidth: Dimensions.get('window').width /2,
+    flex: 0.5,
+    flexDirection: 'row',
+    // backgroundColor: '#fff',
+    marginBottom: 10,
+    borderRadius: 4,
+  },
+  selectedButton:{
+    backgroundColor: 'skyblue',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 4,
   },
   sectionHeader: {
     flex: 1,
@@ -185,12 +239,15 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   title:{
-    fontSize: 30, 
-    marginTop: headerMarginTop, 
-    marginLeft: 100, 
+    fontSize: 26, 
+    marginTop: -6, 
+    marginLeft: 0,
     color: '#1D2359', 
     textAlign: 'center'
-  }
+  },
+  colWrap:{
+    flexWrap: "wrap"
+  },
 });
 
 export default Vocabulary;

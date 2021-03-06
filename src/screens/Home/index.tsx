@@ -37,6 +37,7 @@ const Home = () => {
   database.fetchLettersData(Platform.OS)
   database.fetchSoundModifiersData(Platform.OS)
   database.fetchVocabularyData(Platform.OS)
+  database.fetchNumbersData(Platform.OS)
 
   const { navigate } = useNavigation();
 
@@ -52,23 +53,27 @@ const Home = () => {
     navigate(ROUTERS.VocabularyModules);
   }, []);
 
+  const gotoNumbers = useCallback(() => {
+    navigate(ROUTERS.Numbers);
+  }, []);
+
   const item =
   {
     title: 'Welcome to UC ਪੰਜਾਬੀ',
-    text1: 'Gurmukhi Script',
+    text1: 'Gurmukhi Alphabet',
     text2: 'Vowels',
-    text3: 'Numbers',
-    text4: 'Vocabulary',
+    text3: 'Vocabulary',
+    text4: 'Numbers',
     text5: 'Settings',
-    text6: 'A mobile companion for the First Year of Punjabi.',
+    text6: 'A mobile companion for the \nFirst Year of Punjabi.',
     text7: 'UNIVERSITY OF CALIFORNIA',
     backgroundColor: '#2f85a4',
   }
   return (
     <>
-     <StatusBar backgroundColor={'transparent'} translucent={true} />
+      <StatusBar backgroundColor={'transparent'} translucent={true} />
 
-<View></View>
+      <View></View>
 
       <View style={{
         flex: 1,
@@ -92,11 +97,8 @@ const Home = () => {
         <Text></Text>
         <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text1} type="outline" onPress={gotoGurmukhi} />
         <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text2} type="outline" onPress={gotoWordFormation} />
-        {/*
-        <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text3} type="outline" />
-        */}
-        <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text4} type="outline" onPress={gotoVocabualryMods}/>
-
+        <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text3} type="outline" onPress={gotoVocabualryMods} />
+        <Button titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title={item.text4} type="outline" onPress={gotoNumbers} />
         {/* Nirvair: Hiding this button for now
             <Button
               icon={  <Icon  name="settings"  size={20}  color="black"  />  }
@@ -104,7 +106,7 @@ const Home = () => {
             />
         */}
 
-          <Text style={styles.brand}>{item.text7}</Text>
+        <Text style={styles.brand}>{item.text7}</Text>
 
       </View>
     </>
