@@ -71,9 +71,11 @@ const Gurmukhi2ndScreen = ({ route }) => {
       setCardItem({}); // This worked for me
     };
   }, []);
+
   const myFunction = () => {
     //setCardItem(tempArray)
   }
+  
   const onLetterPress = (item: any) => {
     //console.log('onLetterPress item.id=', item.id)
     if (item.status) {
@@ -164,7 +166,7 @@ const Gurmukhi2ndScreen = ({ route }) => {
           <View></View>
           <Text style={styles.title}>Row {cardItem.rowNum}</Text>
 
-          <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
+          <Card containerStyle={{ borderRadius: 10, height: 300, width: 300, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
             <Image style={{ width: 160, height: 160 }} source={SOLIDLETTERS[cardItem.name]} />
 
             <TouchableOpacity  >

@@ -110,7 +110,7 @@ const audioPlay =(item: any)=>{
         <Text></Text>
         <Text style={{ fontSize: 20}}>{cardItem.sound}{cardItem.phrase}</Text>
 
-        <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
+        <Card containerStyle={{ borderRadius: 10, height: 300, width: 300, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
           <Image style={{width: 150, height: 150}} source={SOUNDMODIFIERS[cardItem.name]}/>
           <TouchableOpacity  >
             <Button type="clear" onPress={() => audioPlay(cardItem)}
