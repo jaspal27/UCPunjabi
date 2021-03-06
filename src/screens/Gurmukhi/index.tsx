@@ -36,7 +36,7 @@ let gridViewTop = 0;
 
 if (Platform.OS == 'ios') {
   isIos = true;
-  headerMarginTop = 23;
+  headerMarginTop = 12;
   gridViewTop = 10;
 }
 
@@ -70,7 +70,7 @@ const Gurmukhi = () => {
 
     // console.log(item)
     if (item.status) {
-      navigate(ROUTERS.Gurmukhi2ndScreen, item);
+      navigate(ROUTERS.GurmukhiDetails, item);
     }
   }
 
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   buttonSkipText: {
-    paddingTop: 20,
+    paddingTop: 10,
     color: 'black',
     fontWeight: '500',
     fontSize: 16,

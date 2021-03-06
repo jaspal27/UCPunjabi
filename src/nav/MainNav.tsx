@@ -7,7 +7,6 @@ import SplashScreen from 'react-native-splash-screen'
 import Home from "screens/Home";
 import Gurmukhi from "screens/Gurmukhi";
 import GurmukhiDetails from "screens/Gurmukhi/Details"
-import Gurmukhi2ndScreen from "screens/Gurmukhi/Gurmukhi2nd"
 import WordFormation from "screens/WordFormation"
 import WordFormationDetails from 'screens/WordFormation/Details';
 import VocabularyModules from 'screens/VocabularyModules';
@@ -50,7 +49,7 @@ const MainNavigation = memo(() => {
                 {/* <Screen name={ROUTERS.Onboarding} component={Walkthroughs} options={optionNavigator} /> */}
                 <Screen name={ROUTERS.Home} component={Home} options={optionNavigator} />
                 <Screen name={ROUTERS.Gurmukhi} component={Gurmukhi} options={optionNavigator} />
-                <Screen name={ROUTERS.Gurmukhi2ndScreen} component={Gurmukhi2ndScreen} options={optionNavigator} />
+                <Screen name={ROUTERS.GurmukhiDetails} component={GurmukhiDetails} options={optionNavigator} />
                 <Screen name={ROUTERS.Details} component={GurmukhiDetails} options={optionNavigator} />
                 <Screen name={ROUTERS.WordFormation} component={WordFormation} options={optionNavigator} />
                 <Screen name={ROUTERS.WordFormationDetails} component={WordFormationDetails} options={optionNavigator} />

@@ -10,7 +10,7 @@ const ROUTERS = {
     Onboarding: 'Onboarding',
     Home: 'Home',
     Gurmukhi: 'Gurmukhi',
-    Gurmukhi2ndScreen: 'Gurmukhi2ndScreen',
+    GurmukhiDetails: 'GurmukhiDetails',
     Details: 'Details',
     WordFormation: 'WordFormation',
     WordFormationDetails: 'WordFormationDetails',

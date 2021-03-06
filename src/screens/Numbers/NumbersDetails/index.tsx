@@ -32,10 +32,10 @@ import { IMAGES } from 'utils/imagesRequiers';
 
 var isIos = false;
 var isIos = false;
-let topBarBackButton = 30;
+let topBarBackButton = 20;
 if (Platform.OS == 'ios') {
   isIos = true;
-  topBarBackButton = 30;
+  topBarBackButton = 20;
 }
 
 let headerMarginTop = 0;
@@ -179,19 +179,9 @@ const NumbersDetails = ({ route }) => {
 
           <View></View>
           <Text style={styles.title}>{itemParams}</Text>
-          {/* spacers */}
-          <Text />
 
-          <Card containerStyle={{ borderRadius: 10, height: 300, width: 320, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
-
-            <View style={{
-              flex: 0,
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'space-around',
-              width: 340
-            }} >
-
+          <Card containerStyle={{ borderRadius: 10, height: 280, width: 300, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{  flex: 0,  flexDirection: 'row',  marginTop: 10,  justifyContent: 'space-around',  width: 340}} >
               {/* spacers */}
               <Text /><Text /><Text />
               <Button type="clear" onPress={() => flipCard(cardItem)}
@@ -204,9 +194,7 @@ const NumbersDetails = ({ route }) => {
                 <Text style={styles.cardTextSmall}>{number}</Text>
                 : <Text style={styles.cardText}>{number}</Text>
             }
-              <Text style={styles.cardTextSmaller}>{numberText}</Text>
-
-          
+            <Text style={styles.cardTextSmaller}>{numberText}</Text>
 
             <TouchableOpacity  >
               <Button type="clear" onPress={() => onAudioPlay(cardItem)}
