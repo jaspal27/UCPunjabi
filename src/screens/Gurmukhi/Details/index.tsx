@@ -8,94 +8,123 @@
  * @format
  */
 
-import React, { Fragment, useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   TouchableOpacity,
   StatusBar,
-  Platform
+  Platform,
+  Image,
 } from 'react-native';
-import { Button, colors, Card } from 'react-native-elements';
+import { Button, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Container, Header, Content, Body, Left, Right, Title, List, ListItem } from 'native-base';
 import { FlatGrid } from 'react-native-super-grid';
-
-import {
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { EventRegister } from 'react-native-event-listeners'
+import database from "utils/database";
 import { useNavigation } from "@react-navigation/native";
 import { ROUTERS } from "utils/navigation";
-import CustomIcon from 'utils/CustomIcon'
-import AndroidCustomIcon from 'utils/androidCustomIcon';
-import {
-  Player,
-  Recorder,
-  MediaStates
-} from '@react-native-community/audio-toolkit';
-declare const global: { HermesInternal: null | {} };
+import { Player } from '@react-native-community/audio-toolkit';
+import LinearGradient from 'react-native-linear-gradient';
+import { SOLIDLETTERS, OUTLINEDLETTERS } from 'utils/imagesRequiers';
+
+const text1 = "Tap audio icon to open the next letter."
 var isIos = false;
+let topBarBackButton = 0;
 if (Platform.OS == 'ios') {
   isIos = true;
+  topBarBackButton = 20;
 }
-const GurumukhiDetails = () => {
+
+const GurmukhiDetails = ({ route }) => {
+
+  //console.log('Gurmukhi2ndScreen() : route =', route)
+  let letterId = 0
+  let itemParams: any;
+
+  if (route.params) {
+    itemParams = route.params
+    letterId = itemParams.id - 1
+  }
+
+  let [cardItem, setCardItem] = React.useState(itemParams)
+
+  // read letters data from local cache 
+  let lettersData: [] = database.getLettersData()
+
+  // figure out the offset for displaying current letter's entire row
+  let offset = Math.floor(letterId / 5) * 5
+  let tempArray = lettersData.slice(offset, offset + 5)
+  let [letters, setLetters] = React.useState(tempArray)
+  let selectedItem: any = 0;
   const { navigate } = useNavigation();
+
+  const onPrevScreen = useCallback(() => {
+    navigate(ROUTERS.Gurmukhi);
+  }, []);
+
+
+  useEffect(() => {
+    // myFunction();
+    return () => {
+      setCardItem({}); // This worked for me
+    };
+  }, []);
+
+  const myFunction = () => {
+    //setCardItem(tempArray)
+  }
   
-  const onNextScreen = useCallback(() => {
-    navigate(ROUTERS.Gurumukhi2ndScreen);
-  }, []);
+  const onLetterPress = (item: any) => {
+    //console.log('onLetterPress item.id=', item.id)
+    if (item.status) {
+      selectedItem = item
+      setCardItem(item)
+    }
+  }
 
-  const onSkipPress = useCallback(() => {
-    navigate(ROUTERS.Gurumukhi2ndScreen);
-  }, []);
+  // the next line was 'const onAudioPlay = useCallback(() =>' before
+  const onAudioPlay = (item: any) => {
+    let tempItems: any = letters.slice()
+    let index = item.id   //use item.id as index for managing letter states 
 
-  const onPress = useCallback(() => {
-    navigate(ROUTERS.Gurumukhi2ndScreen);
-  }, []);
+    // Reset index if it is the last letter in the script
+    if (index == 41) {
+      index = 40
+    }
+    //else if (index  == 40) {
+    //  tempItems = lettersData.slice(index-5, index+1)
+    //}
+    else if ((index % 5) == 0) {
+      // We are at the end of a row and next row needs to be loaded
+      tempItems = lettersData.slice(index, index + 5)
+    }
 
-  const onAudioPlay = useCallback(() => {
-    //  let audio = new Audio()
+    // Make the next letter active
+    lettersData[index].['status'] = true
+    setLetters(tempItems)
+
+    EventRegister.emit('myCustomEvent', index)
+
 
     try {
-      // play the file tone.mp3
-      let player = new Player("l01.mp3");
+      // play audio for the given letter
+      let player = new Player(item.audioId + ".mp3");
       player.play().on('ended', () => {
-        console.log('ended');
+        //console.log('audio played');
       })
-      //SoundPlayer.playSoundFile('tone', 'mp3')
-
     } catch (e) {
-      console.log(`cannot play the sound file`, e)
+      console.log(`unable to play audio`, e)
     }
-    //SoundPlayer.playUrl('audio/letters/l01.mp3')
-    // audio.playAudioLetters('l01')
-  }, [])
+  }
 
-  const [items, setItems] = React.useState([
-    { id: 1, name: 'uni0A09', code: '#f4f5f5', status: true, audioId: 'l01' },
-    { id: 2, name: 'uni0A05', code: '#f4f5f5', status: false },
-    { id: 3, name: 'uni0A07', code: '#f4f5f5', status: false },
-    { id: 4, name: 'uni0A38', code: '#f4f5f5', status: false },
-    { id: 5, name: 'uni0A39', code: '#f4f5f5', status: false },
-    { id: 6, name: 'uni0A15', code: '#f4f5f5', status: false },
-    { id: 7, name: 'uni0A16', code: '#f4f5f5', status: false },
-    { id: 8, name: 'uni0A17', code: '#f4f5f5', status: false },
-    { id: 9, name: 'uni0A18', code: '#f4f5f5', status: false },
-    { id: 10, name: 'uni0A19', code: '#f4f5f5', status: false },
-
-  ]);
   return (
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-      <View style={{ flexDirection: 'row', backgroundColor: "#2f85a4", paddingTop: 30 }}>
-        <TouchableOpacity   >
-          <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
+      <View style={{ flexDirection: 'row', backgroundColor: "#009DC2", paddingTop: topBarBackButton }}>
+        <TouchableOpacity>
+          <Button onPress={onPrevScreen} style={styles.buttonSkipText} type="clear"
             icon={
               <Icon
                 name="arrow-back"
@@ -107,6 +136,8 @@ const GurumukhiDetails = () => {
         </TouchableOpacity>
 
         <Text style={{ flex: 1, fontSize: 16, lineHeight: 30, color: '#1D2359', textAlign: 'right' }}></Text>
+
+        {/* Nirvair: Hiding this button for now
         <Button onPress={onSkipPress} style={styles.buttonSkipText} type="clear"
           icon={
             <Icon
@@ -116,56 +147,61 @@ const GurumukhiDetails = () => {
             />
           }>
         </Button>
+        */}
       </View >
 
       <View style={{
         flex: 1,
-        backgroundColor: "#2f85a4",
+        backgroundColor: "#ffffff",
         alignItems: 'center',
         justifyContent: 'space-around',
-        paddingBottom: 250
+        paddingBottom: 50
       }}>
-        <Text style={styles.title}>Row1</Text>
-        <Card containerStyle={{ borderRadius: 10, height: 230, width: 230, marginRight: 1, marginLeft: 1, }}>
-          <TouchableOpacity onPress={onPress}>
-            <Button type="clear"
-              icon={
-                isIos ?
-                  <CustomIcon name="uni0A09" size={150}></CustomIcon>
-                  : <AndroidCustomIcon name="uni0A09" size={150}></AndroidCustomIcon>
-              }
-            />
-          </TouchableOpacity>
 
-          <TouchableOpacity  >
-            <Button type="clear" onPress={onAudioPlay}
-              icon={
-                <Icon name="volume-medium-outline" style={{ marginLeft: 20 }} size={20}></Icon>
-              }
-            />
-          </TouchableOpacity>
-        </Card>
-        <FlatGrid
-          itemDimension={60}
-          data={items}
-          style={styles.gridView}
-          renderItem={({ item }) => (
-            <View style={[styles.itemContainer]}>
-              <TouchableOpacity onPress={onPress}>
-                <Button type="clear" disabledStyle={{ backgroundColor: colors.grey0 }} disabled={item.status}
-                  icon={
-                    isIos ?
-                      <CustomIcon name={item.name} size={40}></CustomIcon>
-                      : <AndroidCustomIcon name={item.name} size={40}></AndroidCustomIcon>
+        <LinearGradient
+          colors={['#009DC2', '#FFFFFF', '#FFFFFF', '#FFFFFF']}
+          style={styles.linearGradient}
+        >
+
+          <View></View>
+          <Text style={styles.title}>Row {cardItem.rowNum}</Text>
+
+          <Card containerStyle={{ borderRadius: 10, height: 260, width: 260, marginRight: 1, marginLeft: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
+            <Image style={{ width: 160, height: 160 }} source={SOLIDLETTERS[cardItem.name]} />
+
+            <TouchableOpacity  >
+              <Button type="clear" onPress={() => onAudioPlay(cardItem)}
+                icon={  <Icon name="volume-medium-outline" size={32}></Icon>  } />
+            </TouchableOpacity>
+          </Card>
+          <Text />
+          <Text style={styles.actionText}>{text1}</Text>
+
+          <FlatGrid
+            itemDimension={60}
+            data={letters}
+            style={styles.gridView}
+            renderItem={({ item }) => (
+              <View style={[styles.itemContainer]}>
+                <TouchableOpacity onPress={() => onLetterPress(item)} >
+
+                  {
+                    item.status ?
+                      <Image style={{ width: 50, height: 50 }} source={SOLIDLETTERS[item.name]} />
+                      : <Image style={{ width: 50, height: 50 }} source={OUTLINEDLETTERS[item.name]} />
                   }
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+                </TouchableOpacity>
+
+              </View>
+            )}
+          />
+        </LinearGradient>
+        {/*
+        <View>
+          <Button type="outline" titleStyle={[styles.buttonText]} containerStyle={styles.buttonOutline} title="Next Letter >>"  onPress={() => onNextLetterPress(cardItem)} />
+        </View>
+        */}
       </View>
-
-
 
     </>
   );
@@ -174,7 +210,7 @@ const GurumukhiDetails = () => {
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20
@@ -188,6 +224,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     height: 100,
+  },
+  linearGradient: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -219,7 +259,8 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     borderColor: 'black',
-    borderWidth: 1
+    borderWidth: 1,
+    paddingBottom: 0
   },
   slide: {
     flex: 1,
@@ -232,10 +273,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 36,
     color: 'black',
     textAlign: 'center',
+    paddingTop: 20,
+    paddingBottom: 30
   },
+  actionText: {
+    fontSize: 18,
+    color: 'black',
+    textAlign: 'center',
+    paddingTop: 20,
+    paddingBottom: 20
+  },
+  blurry: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  }
 });
 
-export default GurumukhiDetails;
+export default GurmukhiDetails;
